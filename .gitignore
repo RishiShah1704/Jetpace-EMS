@@ -1,0 +1,10 @@
+node_modules/
+context/
+.claude/
+dist/
+
+# Backups and temp files
+*.backup
+*.bak
+*.tmp
+tmpc7tp4yln.js

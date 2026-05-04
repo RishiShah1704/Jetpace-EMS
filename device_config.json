@@ -1,0 +1,28 @@
+{
+  "slaveIds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "activeSlaveIds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "deviceSettings": {
+    "slave_1": {
+      "Destination": "",
+      "LSP": 0,
+      "HSP": 70,
+      "notifyEmail": ""
+    },
+    "slave_2": {
+      "Destination": "",
+      "LSP": 0,
+      "HSP": 70,
+      "notifyEmail": "rishishah7140@gmail.com"
+    }
+  }
+}
