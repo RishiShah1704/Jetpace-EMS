@@ -1,7 +1,7 @@
 {
     "node-red": {
         "name": "node-red",
-        "version": "4.1.8",
+        "version": "4.1.8-git",
         "local": false,
         "user": false,
         "nodes": {
@@ -14,7 +14,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\05-junction.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\05-junction.js"
             },
             "inject": {
                 "name": "inject",
@@ -25,7 +25,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\20-inject.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\20-inject.js"
             },
             "debug": {
                 "name": "debug",
@@ -36,7 +36,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\21-debug.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\21-debug.js"
             },
             "complete": {
                 "name": "complete",
@@ -47,7 +47,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\24-complete.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\24-complete.js"
             },
             "catch": {
                 "name": "catch",
@@ -58,7 +58,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\25-catch.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\25-catch.js"
             },
             "status": {
                 "name": "status",
@@ -69,7 +69,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\25-status.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\25-status.js"
             },
             "link": {
                 "name": "link",
@@ -82,7 +82,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\60-link.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\60-link.js"
             },
             "comment": {
                 "name": "comment",
@@ -93,7 +93,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\90-comment.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\90-comment.js"
             },
             "global-config": {
                 "name": "global-config",
@@ -104,7 +104,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\91-global-config.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\91-global-config.js"
             },
             "unknown": {
                 "name": "unknown",
@@ -115,7 +115,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\98-unknown.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\common\\98-unknown.js"
             },
             "function": {
                 "name": "function",
@@ -126,7 +126,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\10-function.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\10-function.js"
             },
             "switch": {
                 "name": "switch",
@@ -137,7 +137,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\10-switch.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\10-switch.js"
             },
             "change": {
                 "name": "change",
@@ -148,7 +148,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\15-change.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\15-change.js"
             },
             "range": {
                 "name": "range",
@@ -159,7 +159,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\16-range.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\16-range.js"
             },
             "template": {
                 "name": "template",
@@ -170,7 +170,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\80-template.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\80-template.js"
             },
             "delay": {
                 "name": "delay",
@@ -181,7 +181,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\89-delay.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\89-delay.js"
             },
             "trigger": {
                 "name": "trigger",
@@ -192,7 +192,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\89-trigger.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\89-trigger.js"
             },
             "exec": {
                 "name": "exec",
@@ -203,7 +203,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\90-exec.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\90-exec.js"
             },
             "rbe": {
                 "name": "rbe",
@@ -214,7 +214,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\rbe.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\function\\rbe.js"
             },
             "tls": {
                 "name": "tls",
@@ -225,7 +225,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\05-tls.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\05-tls.js"
             },
             "httpproxy": {
                 "name": "httpproxy",
@@ -236,7 +236,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\06-httpproxy.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\06-httpproxy.js"
             },
             "mqtt": {
                 "name": "mqtt",
@@ -249,7 +249,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\10-mqtt.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\10-mqtt.js"
             },
             "httpin": {
                 "name": "httpin",
@@ -261,7 +261,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\21-httpin.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\21-httpin.js"
             },
             "httprequest": {
                 "name": "httprequest",
@@ -272,7 +272,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\21-httprequest.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\21-httprequest.js"
             },
             "websocket": {
                 "name": "websocket",
@@ -286,7 +286,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\22-websocket.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\22-websocket.js"
             },
             "tcpin": {
                 "name": "tcpin",
@@ -299,7 +299,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\31-tcpin.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\31-tcpin.js"
             },
             "udp": {
                 "name": "udp",
@@ -311,7 +311,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\32-udp.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\network\\32-udp.js"
             },
             "CSV": {
                 "name": "CSV",
@@ -322,7 +322,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-CSV.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-CSV.js"
             },
             "HTML": {
                 "name": "HTML",
@@ -333,7 +333,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-HTML.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-HTML.js"
             },
             "JSON": {
                 "name": "JSON",
@@ -344,7 +344,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-JSON.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-JSON.js"
             },
             "XML": {
                 "name": "XML",
@@ -355,7 +355,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-XML.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-XML.js"
             },
             "YAML": {
                 "name": "YAML",
@@ -366,7 +366,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-YAML.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\parsers\\70-YAML.js"
             },
             "split": {
                 "name": "split",
@@ -378,7 +378,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\sequence\\17-split.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\sequence\\17-split.js"
             },
             "sort": {
                 "name": "sort",
@@ -389,7 +389,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\sequence\\18-sort.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\sequence\\18-sort.js"
             },
             "batch": {
                 "name": "batch",
@@ -400,7 +400,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\sequence\\19-batch.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\sequence\\19-batch.js"
             },
             "file": {
                 "name": "file",
@@ -412,7 +412,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\storage\\10-file.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\storage\\10-file.js"
             },
             "watch": {
                 "name": "watch",
@@ -423,7 +423,7 @@
                 "local": false,
                 "user": false,
                 "module": "node-red",
-                "file": "C:\\SPB_Data\\build2\\win-unpacked\\resources\\.node-red\\node_modules\\@node-red\\nodes\\core\\storage\\23-watch.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@node-red\\nodes\\core\\storage\\23-watch.js"
             }
         }
     },
@@ -443,7 +443,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-node-mysql",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-node-mysql\\68-mysql.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-node-mysql\\68-mysql.js"
             }
         }
     },
@@ -462,7 +462,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_base.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_base.js"
             },
             "ui_button": {
                 "name": "ui_button",
@@ -473,7 +473,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_button.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_button.js"
             },
             "ui_dropdown": {
                 "name": "ui_dropdown",
@@ -484,7 +484,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_dropdown.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_dropdown.js"
             },
             "ui_switch": {
                 "name": "ui_switch",
@@ -495,7 +495,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_switch.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_switch.js"
             },
             "ui_slider": {
                 "name": "ui_slider",
@@ -506,7 +506,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_slider.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_slider.js"
             },
             "ui_numeric": {
                 "name": "ui_numeric",
@@ -517,7 +517,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_numeric.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_numeric.js"
             },
             "ui_text_input": {
                 "name": "ui_text_input",
@@ -528,7 +528,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_text_input.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_text_input.js"
             },
             "ui_date_picker": {
                 "name": "ui_date_picker",
@@ -539,7 +539,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_date_picker.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_date_picker.js"
             },
             "ui_colour_picker": {
                 "name": "ui_colour_picker",
@@ -550,7 +550,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_colour_picker.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_colour_picker.js"
             },
             "ui_form": {
                 "name": "ui_form",
@@ -561,7 +561,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_form.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_form.js"
             },
             "ui_text": {
                 "name": "ui_text",
@@ -572,7 +572,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_text.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_text.js"
             },
             "ui_gauge": {
                 "name": "ui_gauge",
@@ -583,7 +583,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_gauge.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_gauge.js"
             },
             "ui_chart": {
                 "name": "ui_chart",
@@ -594,7 +594,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_chart.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_chart.js"
             },
             "ui_audio": {
                 "name": "ui_audio",
@@ -605,7 +605,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_audio.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_audio.js"
             },
             "ui_toast": {
                 "name": "ui_toast",
@@ -616,7 +616,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_toast.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_toast.js"
             },
             "ui_ui_control": {
                 "name": "ui_ui_control",
@@ -627,7 +627,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_ui_control.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_ui_control.js"
             },
             "ui_template": {
                 "name": "ui_template",
@@ -638,7 +638,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_template.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_template.js"
             },
             "ui_link": {
                 "name": "ui_link",
@@ -649,7 +649,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_link.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_link.js"
             },
             "ui_tab": {
                 "name": "ui_tab",
@@ -660,7 +660,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_tab.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_tab.js"
             },
             "ui_group": {
                 "name": "ui_group",
@@ -671,7 +671,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_group.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_group.js"
             },
             "ui_spacer": {
                 "name": "ui_spacer",
@@ -682,7 +682,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_spacer.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-dashboard\\nodes\\ui_spacer.js"
             }
         }
     },
@@ -701,7 +701,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-client.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-client.js"
             },
             "Modbus-Response": {
                 "name": "Modbus-Response",
@@ -712,7 +712,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-response.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-response.js"
             },
             "Modbus-Read": {
                 "name": "Modbus-Read",
@@ -723,7 +723,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-read.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-read.js"
             },
             "Modbus-Getter": {
                 "name": "Modbus-Getter",
@@ -734,7 +734,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-getter.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-getter.js"
             },
             "Modbus-Flex-Getter": {
                 "name": "Modbus-Flex-Getter",
@@ -745,7 +745,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-getter.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-getter.js"
             },
             "Modbus-Write": {
                 "name": "Modbus-Write",
@@ -756,7 +756,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-write.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-write.js"
             },
             "Modbus-Flex-Write": {
                 "name": "Modbus-Flex-Write",
@@ -767,7 +767,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-write.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-write.js"
             },
             "Modbus-Server": {
                 "name": "Modbus-Server",
@@ -778,7 +778,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-server.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-server.js"
             },
             "Modbus-Queue-Info": {
                 "name": "Modbus-Queue-Info",
@@ -789,7 +789,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-queue-info.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-queue-info.js"
             },
             "Modbus-Flex-Connector": {
                 "name": "Modbus-Flex-Connector",
@@ -800,7 +800,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-connector.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-connector.js"
             },
             "Modbus-IO-Config": {
                 "name": "Modbus-IO-Config",
@@ -811,7 +811,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-io-config.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-io-config.js"
             },
             "Modbus-Response-Filter": {
                 "name": "Modbus-Response-Filter",
@@ -822,7 +822,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-response-filter.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-response-filter.js"
             },
             "Modbus-Flex-Sequencer": {
                 "name": "Modbus-Flex-Sequencer",
@@ -833,7 +833,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-sequencer.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-sequencer.js"
             },
             "Modbus-Flex-Fc": {
                 "name": "Modbus-Flex-Fc",
@@ -844,7 +844,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-modbus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-fc.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-modbus\\modbus\\modbus-flex-fc.js"
             }
         }
     },
@@ -863,7 +863,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-node-ui-table",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-node-ui-table\\node.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-node-ui-table\\node.js"
             }
         }
     },
@@ -889,7 +889,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-chartjs",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-chartjs\\chartjs\\chartjs.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-chartjs\\chartjs\\chartjs.js"
             }
         }
     },
@@ -908,7 +908,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-chartjs-line-alt",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-chartjs-line-alt\\chartjs-line-alt\\chartjs-line-alt.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-chartjs-line-alt\\chartjs-line-alt\\chartjs-line-alt.js"
             }
         }
     },
@@ -927,7 +927,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-remote",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-remote\\nodes\\remote-config.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-remote\\nodes\\remote-config.js"
             },
             "remote-access": {
                 "name": "remote-access",
@@ -938,7 +938,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-remote",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-remote\\nodes\\remote-access.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-remote\\nodes\\remote-access.js"
             },
             "remote-notification": {
                 "name": "remote-notification",
@@ -949,7 +949,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-remote",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-remote\\nodes\\remote-notification.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-remote\\nodes\\remote-notification.js"
             },
             "remote-question": {
                 "name": "remote-question",
@@ -960,7 +960,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-remote",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-remote\\nodes\\remote-question.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-remote\\nodes\\remote-question.js"
             }
         }
     },
@@ -979,7 +979,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-pdfmake",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-pdfmake\\pdfmake\\pdfmake.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-pdfmake\\pdfmake\\pdfmake.js"
             }
         }
     },
@@ -998,7 +998,7 @@
                 "local": true,
                 "user": false,
                 "module": "pdf-red",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\pdf-red\\pdf-red.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\pdf-red\\pdf-red.js"
             }
         }
     },
@@ -1017,7 +1017,7 @@
                 "local": true,
                 "user": false,
                 "module": "@s1seven/node-red-generate-pdf",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@s1seven\\node-red-generate-pdf\\generate-pdf-node.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@s1seven\\node-red-generate-pdf\\generate-pdf-node.js"
             }
         }
     },
@@ -1037,7 +1037,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-mssql-plus",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-mssql-plus\\src\\mssql.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-mssql-plus\\src\\mssql.js"
             }
         }
     },
@@ -1056,7 +1056,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_base.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_base.js"
             },
             "ui-page": {
                 "name": "ui-page",
@@ -1067,7 +1067,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_page.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_page.js"
             },
             "ui-link": {
                 "name": "ui-link",
@@ -1078,7 +1078,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_link.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_link.js"
             },
             "ui-group": {
                 "name": "ui-group",
@@ -1089,7 +1089,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_group.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_group.js"
             },
             "ui-theme": {
                 "name": "ui-theme",
@@ -1100,7 +1100,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_theme.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\config\\ui_theme.js"
             },
             "ui-form": {
                 "name": "ui-form",
@@ -1111,7 +1111,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_form.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_form.js"
             },
             "ui-text-input": {
                 "name": "ui-text-input",
@@ -1122,7 +1122,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_text_input.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_text_input.js"
             },
             "ui-number-input": {
                 "name": "ui-number-input",
@@ -1133,7 +1133,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_number_input.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_number_input.js"
             },
             "ui-file-input": {
                 "name": "ui-file-input",
@@ -1144,7 +1144,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_file_input.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_file_input.js"
             },
             "ui-button": {
                 "name": "ui-button",
@@ -1155,7 +1155,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_button.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_button.js"
             },
             "ui-button-group": {
                 "name": "ui-button-group",
@@ -1166,7 +1166,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_button_group.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_button_group.js"
             },
             "ui-dropdown": {
                 "name": "ui-dropdown",
@@ -1177,7 +1177,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_dropdown.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_dropdown.js"
             },
             "ui-radio-group": {
                 "name": "ui-radio-group",
@@ -1188,7 +1188,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_radio_group.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_radio_group.js"
             },
             "ui-slider": {
                 "name": "ui-slider",
@@ -1199,7 +1199,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_slider.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_slider.js"
             },
             "ui-spacer": {
                 "name": "ui-spacer",
@@ -1210,7 +1210,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_spacer.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_spacer.js"
             },
             "ui-switch": {
                 "name": "ui-switch",
@@ -1221,7 +1221,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_switch.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_switch.js"
             },
             "ui-text": {
                 "name": "ui-text",
@@ -1232,7 +1232,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_text.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_text.js"
             },
             "ui-table": {
                 "name": "ui-table",
@@ -1243,7 +1243,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_table.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_table.js"
             },
             "ui-chart": {
                 "name": "ui-chart",
@@ -1254,7 +1254,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_chart.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_chart.js"
             },
             "ui-gauge": {
                 "name": "ui-gauge",
@@ -1265,7 +1265,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_gauge.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_gauge.js"
             },
             "ui-notification": {
                 "name": "ui-notification",
@@ -1276,7 +1276,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_notification.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_notification.js"
             },
             "ui-audio": {
                 "name": "ui-audio",
@@ -1287,7 +1287,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_audio.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_audio.js"
             },
             "ui-markdown": {
                 "name": "ui-markdown",
@@ -1298,7 +1298,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_markdown.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_markdown.js"
             },
             "ui-template": {
                 "name": "ui-template",
@@ -1309,7 +1309,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_template.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_template.js"
             },
             "ui-event": {
                 "name": "ui-event",
@@ -1320,7 +1320,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_event.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_event.js"
             },
             "ui-control": {
                 "name": "ui-control",
@@ -1331,7 +1331,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_control.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_control.js"
             },
             "ui-progress": {
                 "name": "ui-progress",
@@ -1342,7 +1342,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_progress.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard\\nodes\\widgets\\ui_progress.js"
             }
         }
     },
@@ -1361,7 +1361,7 @@
                 "local": true,
                 "user": false,
                 "module": "@flowfuse/node-red-dashboard-2-ui-led",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard-2-ui-led\\nodes\\ui-led.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@flowfuse\\node-red-dashboard-2-ui-led\\nodes\\ui-led.js"
             }
         }
     },
@@ -1380,7 +1380,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-ui-led",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-contrib-ui-led\\dist\\nodes\\ui_led\\ui_led.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-contrib-ui-led\\dist\\nodes\\ui_led\\ui_led.js"
             }
         }
     },
@@ -1399,7 +1399,7 @@
                 "local": true,
                 "user": false,
                 "module": "@omrid01/node-red-dashboard-2-table-tabulator",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\@omrid01\\node-red-dashboard-2-table-tabulator\\nodes\\ui-tabulator.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\@omrid01\\node-red-dashboard-2-table-tabulator\\nodes\\ui-tabulator.js"
             }
         }
     },
@@ -1420,7 +1420,7 @@
                 "local": true,
                 "user": false,
                 "module": "node-red-node-email",
-                "file": "C:\\SPB_DATA\\.node-red\\node_modules\\node-red-node-email\\61-email.js"
+                "file": "C:\\SPB_Data\\.node-red\\node_modules\\node-red-node-email\\61-email.js"
             }
         }
     }

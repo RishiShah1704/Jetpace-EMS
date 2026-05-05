@@ -28,6 +28,7 @@
         "@flowfuse/node-red-dashboard-2-user-addon": "~1.1.0",
         "@omrid01/node-red-dashboard-2-table-tabulator": "~0.8.2",
         "@s1seven/node-red-generate-pdf": "~0.0.9",
+        "node-hide-console-window": "^2.2.0",
         "node-red": "^4.0.9",
         "node-red-contrib-chartjs": "~0.5.2",
         "node-red-contrib-chartjs-line-alt": "~0.0.1",
