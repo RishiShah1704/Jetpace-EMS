@@ -469,6 +469,10 @@ contextStorage: {
         // os:require('os'),
         fs:   require('fs'),
         path: require('path'),
+        CONFIG_PATH: require('path').join(
+            process.pkg ? require('path').dirname(process.execPath) : __dirname,
+            'device_config.json'
+        ),
     },
 
     /** The maximum number of messages nodes will buffer internally as part of their

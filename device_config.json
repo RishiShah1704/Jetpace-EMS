@@ -22,7 +22,8 @@
       "Destination": "",
       "LSP": 0,
       "HSP": 70,
-      "notifyEmail": "rishishah7140@gmail.com"
+      "notifyEmail": ""
     }
-  }
+  },
+  "emailSettingsPassword": "Rishi@1726"
 }

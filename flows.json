@@ -1,6 +1,6 @@
 [
     {
-        "id": "aaa1905c11806a04",
+        "id": "bb9517b1331181ac",
         "type": "tab",
         "label": "Practise",
         "disabled": false,
@@ -401,9 +401,9 @@
         "groupType": "default"
     },
     {
-        "id": "2ce95dacd52513fd",
+        "id": "ca20705da320916a",
         "type": "inject",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Fast Poll Ticker — Every 200ms",
         "props": [
             {
@@ -421,14 +421,14 @@
         "y": 140,
         "wires": [
             [
-                "bb84cf9225952221"
+                "d7a34b07c2b30536"
             ]
         ]
     },
     {
-        "id": "290f5021b1c2034d",
+        "id": "880b600c54071f69",
         "type": "inject",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Background Scan — Every 5s",
         "props": [
             {
@@ -446,16 +446,16 @@
         "y": 180,
         "wires": [
             [
-                "1298df65486bb129"
+                "8079b9c282d581d7"
             ]
         ]
     },
     {
-        "id": "bb84cf9225952221",
+        "id": "d7a34b07c2b30536",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Round-Robin Fast Poller",
-        "func": "const _cfgPath = 'C:/SPB_Data/.node-red/device_config.json';\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nlet activeIds = _readCfg().activeSlaveIds || [];\nif (activeIds.length === 0) return null;\n\nlet idx = flow.get('rrIndex') || 0;\nif (idx >= activeIds.length) idx = 0;\nconst slaveId = activeIds[idx];\nflow.set('rrIndex', idx + 1);\n\nreturn [{\n    payload: { value: 0, unitid: slaveId, fc: 3, address: 0, quantity: 1 },\n    slaveId: slaveId,\n    scanType: 'fast',\n    _timestamp: Date.now()\n}];",
+        "func": "const _cfgPath = global.get('CONFIG_PATH');\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nlet activeIds = _readCfg().activeSlaveIds || [];\nif (activeIds.length === 0) return null;\n\nlet idx = flow.get('rrIndex') || 0;\nif (idx >= activeIds.length) idx = 0;\nconst slaveId = activeIds[idx];\nflow.set('rrIndex', idx + 1);\n\nreturn [{\n    payload: { value: 0, unitid: slaveId, fc: 3, address: 0, quantity: 1 },\n    slaveId: slaveId,\n    scanType: 'fast',\n    _timestamp: Date.now()\n}];",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -475,16 +475,16 @@
         "y": 80,
         "wires": [
             [
-                "06e5ccb8b3111203"
+                "c63bf6e53b8d5b50"
             ]
         ]
     },
     {
-        "id": "1298df65486bb129",
+        "id": "8079b9c282d581d7",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Background Scan Builder",
-        "func": "const _cfgPath = 'C:/SPB_Data/.node-red/device_config.json';\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\n\n// Reconnection scanner — polls devices in slaveIds that are NOT in activeSlaveIds\nconst cfg = _readCfg();\nconst slaveIds = (cfg.slaveIds || []).map(Number);\nconst activeSet = new Set((cfg.activeSlaveIds || []).map(Number));\nconst offlineAdded = slaveIds.filter(id => !activeSet.has(id));\n\nif (offlineAdded.length === 0) return null;\n\n// Round-robin through offline devices\nlet bgQueue = flow.get('bgScanQueue') || [];\nconst bgSet = new Set(bgQueue);\nofflineAdded.forEach(id => { if (!bgSet.has(id)) bgQueue.push(id); });\nif (bgQueue.length === 0) return null;\n\nconst slaveId = bgQueue.shift();\nflow.set('bgScanQueue', bgQueue);\n\nreturn [{\n    payload: { value: 0, unitid: slaveId, fc: 3, address: 0, quantity: 1 },\n    slaveId: slaveId,\n    scanType: 'slow',\n    isRecoveryAttempt: true\n}];",
+        "func": "const _cfgPath = global.get('CONFIG_PATH');\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\n\n// Reconnection scanner — polls devices in slaveIds that are NOT in activeSlaveIds\nconst cfg = _readCfg();\nconst slaveIds = (cfg.slaveIds || []).map(Number);\nconst activeSet = new Set((cfg.activeSlaveIds || []).map(Number));\nconst offlineAdded = slaveIds.filter(id => !activeSet.has(id));\n\nif (offlineAdded.length === 0) return null;\n\n// Round-robin through offline devices\nlet bgQueue = flow.get('bgScanQueue') || [];\nconst bgSet = new Set(bgQueue);\nofflineAdded.forEach(id => { if (!bgSet.has(id)) bgQueue.push(id); });\nif (bgQueue.length === 0) return null;\n\nconst slaveId = bgQueue.shift();\nflow.set('bgScanQueue', bgQueue);\n\nreturn [{\n    payload: { value: 0, unitid: slaveId, fc: 3, address: 0, quantity: 1 },\n    slaveId: slaveId,\n    scanType: 'slow',\n    isRecoveryAttempt: true\n}];",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -504,16 +504,16 @@
         "y": 260,
         "wires": [
             [
-                "06e5ccb8b3111203"
+                "c63bf6e53b8d5b50"
             ]
         ]
     },
     {
-        "id": "1ebef909d4ae2bb5",
+        "id": "757e83c2d3ea5fd6",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Update Row — OFFLINE",
-        "func": "const _cfgPath = 'C:/SPB_Data/.node-red/device_config.json';\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nlet slaveId = (msg.modbusRequest && msg.modbusRequest.unitid) ||\n    (msg.payload && msg.payload.unitid) ||\n    (msg.payload && msg.payload.modbusRequest && msg.payload.modbusRequest.unitid) ||\n    msg.slaveId || null;\n\nif (!slaveId) { node.warn('OFFLINE: slaveId not found'); return null; }\n\nconst OFFLINE_TIMEOUT_MS = 5000;\nlet lastResponseTime = flow.get(`lastResponseTime_${slaveId}`) || 0;\nlet currentTime = Date.now();\nlet isCurrentlyMarkedOffline = flow.get(`isOffline_${slaveId}`) || false;\n\nif ((currentTime - lastResponseTime) <= OFFLINE_TIMEOUT_MS) return null;\nif (isCurrentlyMarkedOffline) return null;\n\nflow.set(`isOffline_${slaveId}`, true);\n\nconst cfg = _readCfg();\nconst device = (cfg.deviceSettings || {})['slave_' + slaveId] || { Destination: '', LSP: 0, HSP: 70 };\nlet tableData = flow.get('tableData', 'file') || {};\n\ntableData['slave_' + slaveId] = {\n    ID: slaveId,\n    Destination: device.Destination || '',\n    TempValue: '-',\n    LSP: device.LSP,\n    HSP: device.HSP,\n    notifyEmail: device.notifyEmail || '',\n    Alarm: 'OFFLINE',\n    Status: 'OFFLINE',\n    lastSeen: tableData['slave_' + slaveId]?.lastSeen || 0\n};\nflow.set('tableData', tableData, 'file');\n\nconst slaveIdNum = Number(slaveId);\nconst activeIds = (cfg.activeSlaveIds || []).map(Number);\nif (activeIds.includes(slaveIdNum)) {\n    cfg.activeSlaveIds = activeIds.filter(id => id !== slaveIdNum);\n    _saveCfg(cfg);\n}\n\nnode.warn(`[Marked OFFLINE] Slave ${slaveId} — no response for ${Math.round((currentTime - lastResponseTime)/1000)}s`);\n\nconst SLAVE_IDS = cfg.slaveIds || [];\nmsg.payload = SLAVE_IDS.map(id => tableData['slave_' + id] || {\n    ID: id, Destination: '', TempValue: '-',\n    LSP: 0, HSP: 70, Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n});\n\nconst lastUIUpdate = flow.get('lastUIUpdate') || 0;\nconst now2 = Date.now();\nif (now2 - lastUIUpdate < 1000) return null;\nflow.set('lastUIUpdate', now2);\nreturn msg;",
+        "func": "const _cfgPath = global.get('CONFIG_PATH');\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nlet slaveId = (msg.modbusRequest && msg.modbusRequest.unitid) ||\n    (msg.payload && msg.payload.unitid) ||\n    (msg.payload && msg.payload.modbusRequest && msg.payload.modbusRequest.unitid) ||\n    msg.slaveId || null;\n\nif (!slaveId) { node.warn('OFFLINE: slaveId not found'); return null; }\n\nconst OFFLINE_TIMEOUT_MS = 5000;\nlet lastResponseTime = flow.get(`lastResponseTime_${slaveId}`) || 0;\nlet currentTime = Date.now();\nlet isCurrentlyMarkedOffline = flow.get(`isOffline_${slaveId}`) || false;\n\nif ((currentTime - lastResponseTime) <= OFFLINE_TIMEOUT_MS) return null;\nif (isCurrentlyMarkedOffline) return null;\n\nflow.set(`isOffline_${slaveId}`, true);\n\nconst cfg = _readCfg();\nconst device = (cfg.deviceSettings || {})['slave_' + slaveId] || { Destination: '', LSP: 0, HSP: 70 };\nlet tableData = flow.get('tableData', 'file') || {};\n\ntableData['slave_' + slaveId] = {\n    ID: slaveId,\n    Destination: device.Destination || '',\n    TempValue: '-',\n    LSP: device.LSP,\n    HSP: device.HSP,\n    notifyEmail: device.notifyEmail || '',\n    Alarm: 'OFFLINE',\n    Status: 'OFFLINE',\n    lastSeen: tableData['slave_' + slaveId]?.lastSeen || 0\n};\nflow.set('tableData', tableData, 'file');\n\nconst slaveIdNum = Number(slaveId);\nconst activeIds = (cfg.activeSlaveIds || []).map(Number);\nif (activeIds.includes(slaveIdNum)) {\n    cfg.activeSlaveIds = activeIds.filter(id => id !== slaveIdNum);\n    _saveCfg(cfg);\n}\n\nnode.warn(`[Marked OFFLINE] Slave ${slaveId} — no response for ${Math.round((currentTime - lastResponseTime)/1000)}s`);\n\nconst SLAVE_IDS = cfg.slaveIds || [];\nmsg.payload = SLAVE_IDS.map(id => tableData['slave_' + id] || {\n    ID: id, Destination: '', TempValue: '-',\n    LSP: 0, HSP: 70, Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n});\n\nconst lastUIUpdate = flow.get('lastUIUpdate') || 0;\nconst now2 = Date.now();\nif (now2 - lastUIUpdate < 1000) return null;\nflow.set('lastUIUpdate', now2);\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -533,14 +533,14 @@
         "y": 220,
         "wires": [
             [
-                "aa0f216b002b1015"
+                "cc342285c9f0d58f"
             ]
         ]
     },
     {
-        "id": "4b00657679621173",
+        "id": "5730db66b550f0a7",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Prepare Log Insert",
         "func": "if (!msg._logEntry) return null;\n\nconst e = msg._logEntry;\n\nif (typeof e.slaveId === 'undefined' || typeof e.tempValue === 'undefined') {\n    node.warn(\"[dp_log] Missing slaveId or tempValue\");\n    return null;\n}\n\nconst dt = new Date(e.ts);\n\nif (isNaN(dt.getTime())) {\n    node.warn(`[dp_log] Invalid timestamp received: ${e.ts}`);\n    return null;\n}\n\nconst year = dt.getFullYear();\nconst month = String(dt.getMonth() + 1).padStart(2, '0');\nconst day = String(dt.getDate()).padStart(2, '0');\nconst hours = String(dt.getHours()).padStart(2, '0');\nconst minutes = String(dt.getMinutes()).padStart(2, '0');\nconst seconds = String(dt.getSeconds()).padStart(2, '0');\n\nconst ts = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;\n\nconst slaveId = Number(e.slaveId);\nconst tempValue = Number(e.tempValue);\nconst alarm = (e.alarm || 'NORMAL').replace(/'/g, \"''\");\n\nconst dpValue = Number(e.tempValue);\n\nmsg.topic = `INSERT INTO dp_log (slave_id, dp_value, alarm_status, logged_at) \n             VALUES (${slaveId}, ${dpValue}, '${alarm}', '${ts}')`;\n\nmsg.payload = {};\n\nreturn msg;",
         "outputs": 1,
@@ -553,16 +553,16 @@
         "y": 100,
         "wires": [
             [
-                "3b5332d74685425d"
+                "d9a9fcd31b1dbc05"
             ]
         ]
     },
     {
-        "id": "45054155a61c45fe",
+        "id": "4d17381855ccf217",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Set Active Slave IDs",
-        "func": "const _cfgPath = 'C:/SPB_Data/.node-red/device_config.json';\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nif (!msg.payload) return null;\nif (msg.payload.action === 'contacts-result') return msg;\nif (msg.payload.action === 'email-config-result') return msg;\nif (msg.payload.action === 'change-password-result') return msg;\nif (msg.payload.action !== 'set-active-ids') return null;\n\nconst rawInput = (msg.payload.raw || '').trim();\nconst ids = new Set();\n\nrawInput.split(',').forEach(part => {\n    part = part.trim();\n    const rangeMatch = part.match(/^(\\d+)-(\\d+)$/);\n    if (rangeMatch) {\n        const from = parseInt(rangeMatch[1]), to = parseInt(rangeMatch[2]);\n        for (let i = from; i <= to && i <= 200; i++) ids.add(i);\n    } else {\n        const n = parseInt(part);\n        if (!isNaN(n) && n >= 1 && n <= 200) ids.add(n);\n    }\n});\n\nconst sorted = Array.from(ids).sort((a, b) => a - b);\nconst cfg = _readCfg();\nconst previousActiveIds = (cfg.activeSlaveIds || []).map(Number);\n\ncfg.slaveIds = sorted;\ncfg.activeSlaveIds = sorted;\n_saveCfg(cfg);\n\nflow.set('rrIndex', 0);\nflow.set('bgScanQueue', []);\n\nlet tableData = flow.get('tableData', 'file') || {};\nconst settings = cfg.deviceSettings || {};\n\nfor (let id of sorted) {\n    const device = settings['slave_' + id] || { Destination: '', LSP: 0, HSP: 70 };\n    if (!tableData['slave_' + id]) {\n        tableData['slave_' + id] = {\n            ID: id, Destination: device.Destination || '',\n            TempValue: '-', LSP: device.LSP, HSP: device.HSP,\n            notifyEmail: device.notifyEmail || '',\n            Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n        };\n    } else {\n        tableData['slave_' + id].TempValue = '-';\n        tableData['slave_' + id].Status = 'OFFLINE';\n        tableData['slave_' + id].Alarm = 'OFFLINE';\n        tableData['slave_' + id].lastSeen = 0;\n    }\n}\nflow.set('tableData', tableData, 'file');\n\nfor (let id of ids) {\n    flow.set(`isOffline_${id}`, false);\n    flow.set(`lastResponseTime_${id}`, 0);\n}\nfor (let id of previousActiveIds) {\n    if (!ids.has(id)) {\n        flow.set(`isOffline_${id}`, false);\n        flow.set(`lastResponseTime_${id}`, 0);\n    }\n}\n\nmsg.payload = sorted.map(id => tableData['slave_' + id] || {\n    ID: id, Destination: '', TempValue: '-',\n    LSP: 0, HSP: 70, Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n});\nreturn msg;",
+        "func": "const _cfgPath = global.get('CONFIG_PATH');\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nif (!msg.payload) return null;\nif (msg.payload.action === 'contacts-result') return msg;\nif (msg.payload.action === 'email-config-result') return msg;\nif (msg.payload.action === 'change-password-result') return msg;\nif (msg.payload.action !== 'set-active-ids') return null;\n\nconst rawInput = (msg.payload.raw || '').trim();\nconst ids = new Set();\n\nrawInput.split(',').forEach(part => {\n    part = part.trim();\n    const rangeMatch = part.match(/^(\\d+)-(\\d+)$/);\n    if (rangeMatch) {\n        const from = parseInt(rangeMatch[1]), to = parseInt(rangeMatch[2]);\n        for (let i = from; i <= to && i <= 200; i++) ids.add(i);\n    } else {\n        const n = parseInt(part);\n        if (!isNaN(n) && n >= 1 && n <= 200) ids.add(n);\n    }\n});\n\nconst sorted = Array.from(ids).sort((a, b) => a - b);\nconst cfg = _readCfg();\nconst previousActiveIds = (cfg.activeSlaveIds || []).map(Number);\n\ncfg.slaveIds = sorted;\ncfg.activeSlaveIds = sorted;\n_saveCfg(cfg);\n\nflow.set('rrIndex', 0);\nflow.set('bgScanQueue', []);\n\nlet tableData = flow.get('tableData', 'file') || {};\nconst settings = cfg.deviceSettings || {};\n\nfor (let id of sorted) {\n    const device = settings['slave_' + id] || { Destination: '', LSP: 0, HSP: 70 };\n    if (!tableData['slave_' + id]) {\n        tableData['slave_' + id] = {\n            ID: id, Destination: device.Destination || '',\n            TempValue: '-', LSP: device.LSP, HSP: device.HSP,\n            notifyEmail: device.notifyEmail || '',\n            Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n        };\n    } else {\n        tableData['slave_' + id].TempValue = '-';\n        tableData['slave_' + id].Status = 'OFFLINE';\n        tableData['slave_' + id].Alarm = 'OFFLINE';\n        tableData['slave_' + id].lastSeen = 0;\n    }\n}\nflow.set('tableData', tableData, 'file');\n\nfor (let id of ids) {\n    flow.set(`isOffline_${id}`, false);\n    flow.set(`lastResponseTime_${id}`, 0);\n}\nfor (let id of previousActiveIds) {\n    if (!ids.has(id)) {\n        flow.set(`isOffline_${id}`, false);\n        flow.set(`lastResponseTime_${id}`, 0);\n    }\n}\n\nmsg.payload = sorted.map(id => tableData['slave_' + id] || {\n    ID: id, Destination: '', TempValue: '-',\n    LSP: 0, HSP: 70, Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n});\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -582,14 +582,14 @@
         "y": 160,
         "wires": [
             [
-                "aa0f216b002b1015"
+                "cc342285c9f0d58f"
             ]
         ]
     },
     {
-        "id": "3e1123c0e1c42902",
+        "id": "475d13d34cfe209f",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Validate Auth",
         "func": "if (!msg.payload || msg.payload.action !== 'auth-check') return null;\nconst ADMIN_ID = 'Jetpace';\nconst ADMIN_PASS = 'Jetpace';\nconst now = Date.now();\nconst lockUntil = flow.get('authLockUntil') || 0;\nif (now < lockUntil) { const secsLeft = Math.ceil((lockUntil - now) / 1000); msg.payload = { action: 'auth-result', success: false, locked: true, secsLeft }; return msg; }\nconst enteredId = (msg.payload.userId || '').trim();\nconst enteredPass = (msg.payload.password || '').trim();\nif (enteredId === ADMIN_ID && enteredPass === ADMIN_PASS) { flow.set('authFailCount', 0); flow.set('authLockUntil', 0); msg.payload = { action: 'auth-result', success: true }; }\nelse { let fails = (flow.get('authFailCount') || 0) + 1; flow.set('authFailCount', fails); if (fails >= 3) { flow.set('authLockUntil', now + 60*1000); flow.set('authFailCount', 0); msg.payload = { action: 'auth-result', success: false, locked: true, secsLeft: 60 }; } else { msg.payload = { action: 'auth-result', success: false, locked: false, attemptsLeft: 3 - fails }; } }\nreturn msg;",
         "outputs": 1,
@@ -602,14 +602,14 @@
         "y": 340,
         "wires": [
             [
-                "aa0f216b002b1015"
+                "cc342285c9f0d58f"
             ]
         ]
     },
     {
-        "id": "c023a5364a175955",
+        "id": "689c7a5954bea6dc",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Build Report Query",
         "func": "if (!msg.payload || msg.payload.action !== 'report-query') return null;\n\nconst p = msg.payload;\nconst slaveIds = (p.slaveIds || []).map(Number).filter(n => n >= 1 && n <= 200);\n\nif (slaveIds.length === 0) {\n    msg.payload = { action: 'report-result', error: 'No slave IDs selected.' };\n    return [null, msg];\n}\nif (!p.dateFrom || !p.dateTo) {\n    msg.payload = { action: 'report-result', error: 'Both From and To dates are required.' };\n    return [null, msg];\n}\n\nconst duration = parseInt(p.duration) || 5;\nconst dateStart = p.dateFrom + ' 00:00:00';\nconst dateEnd   = p.dateTo   + ' 23:59:59';\n\n// Fetch raw rows – bucketing is done in Format Report Result using the\n// actual first-log timestamp, not midnight-aligned buckets.\nmsg.topic = `\nSELECT\n    slave_id,\n    CONVERT(varchar(19), logged_at, 120) AS logged_at,\n    dp_value,\n    alarm_status\nFROM dp_log\nWHERE slave_id IN (${slaveIds.join(',')})\n  AND logged_at BETWEEN '${dateStart}' AND '${dateEnd}'\nORDER BY slave_id, logged_at\n`;\n\nmsg.payload = {};\nmsg._reportMeta = { slaveIds, duration, dateFrom: p.dateFrom, dateTo: p.dateTo };\n\nreturn [msg, null];\n",
         "outputs": 2,
@@ -622,15 +622,15 @@
         "y": 440,
         "wires": [
             [
-                "8e2b6b0c2bb280e0"
+                "9cd30f173f055157"
             ],
             []
         ]
     },
     {
-        "id": "06e5ccb8b3111203",
+        "id": "c63bf6e53b8d5b50",
         "type": "modbus-flex-getter",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
@@ -649,17 +649,17 @@
         "y": 160,
         "wires": [
             [
-                "7916fb0aba3aec1d"
+                "019c8541105f0c80"
             ],
             [
-                "1ebef909d4ae2bb5"
+                "757e83c2d3ea5fd6"
             ]
         ]
     },
     {
-        "id": "3b5332d74685425d",
+        "id": "d9a9fcd31b1dbc05",
         "type": "MSSQL",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "mssqlCN": "c7214cfdb99c6f92",
         "name": "Live_Table_MSSQL",
         "outField": "payload",
@@ -683,9 +683,9 @@
         ]
     },
     {
-        "id": "8e2b6b0c2bb280e0",
+        "id": "9cd30f173f055157",
         "type": "MSSQL",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "mssqlCN": "c7214cfdb99c6f92",
         "name": "Daily Report MSSQL",
         "outField": "payload",
@@ -706,14 +706,14 @@
         "y": 440,
         "wires": [
             [
-                "41887cde0b2bf2cc"
+                "02174cdf76accb4c"
             ]
         ]
     },
     {
-        "id": "7916fb0aba3aec1d",
+        "id": "019c8541105f0c80",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "function 2",
         "func": "if (msg.error || msg.payload === undefined || msg.payload === null) {\n    node.warn(`Modbus error or empty response for slave ${msg.slaveId || '?'}`);\n    return [null, msg];\n}\n\nif (Buffer.isBuffer(msg.payload)) {\n    msg.payload = Array.from(msg.payload);\n}\n\nif (!Array.isArray(msg.payload)) {\n    if (msg.payload && Array.isArray(msg.payload.data)) {\n        msg.payload = msg.payload.data;\n    } else {\n        msg.payload = [];\n    }\n}\n\nreturn [msg, null];",
         "outputs": 2,
@@ -726,17 +726,17 @@
         "y": 140,
         "wires": [
             [
-                "680b7dae3f8d9437"
+                "45f7954f61f7dac9"
             ],
             [
-                "1ebef909d4ae2bb5"
+                "757e83c2d3ea5fd6"
             ]
         ]
     },
     {
-        "id": "d3077497f57b43ee",
+        "id": "8d605301f55c6fe2",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Validate Login",
         "func": "if (!msg.payload) return null;\n\n// LOGOUT — revoke token stored by the frontend\nif (msg.payload.action === 'logout') {\n    const token = msg.payload.sessionToken || null;\n    if (token) {\n        let authSockets = flow.get('authenticatedSockets', 'file') || {};\n        delete authSockets[token];\n        flow.set('authenticatedSockets', authSockets);\n        flow.set('authenticatedSockets', authSockets, 'file');\n    }\n    return null;\n}\n\nif (msg.payload.action !== 'login-check') return null;\n\nconst USERS = {\n    'admin': { password: 'admin', role: 'admin'  },\n    'user':    { password: 'user',    role: 'viewer' }\n};\n\nconst userId   = (msg.payload.userId   || '').trim();\nconst password = (msg.payload.password || '').trim();\nconst socketId = msg._client ? msg._client.socketId : 'unknown';\nconst now      = Date.now();\n\nconst lockKey   = 'loginLock_'  + socketId;\nconst failKey   = 'loginFails_' + socketId;\nconst lockUntil = flow.get(lockKey) || 0;\n\nif (now < lockUntil) {\n    const secsLeft = Math.ceil((lockUntil - now) / 1000);\n    msg.payload = { action: 'login-result', success: false, locked: true, secsLeft };\n    return [null, msg];\n}\n\nconst fails = flow.get(failKey) || 0;\n\nconst userRecord = USERS[userId];\nif (userRecord && userRecord.password === password) {\n    const userRole = userRecord.role;\n    flow.set(failKey, 0);\n    flow.set(lockKey, 0);\n\n    // Generate a persistent session token (survives WS reconnects & server restarts)\n    const token = 'jp_' + now.toString(36) + '_' + Math.random().toString(36).slice(2, 10);\n    let authSockets = flow.get('authenticatedSockets', 'file') || {};\n\n    // Prune oldest entries if map grows too large (keep max 30)\n    const keys = Object.keys(authSockets);\n    if (keys.length > 50) {\n        keys.sort((a, b) => (authSockets[a].ts || 0) - (authSockets[b].ts || 0));\n        keys.slice(0, keys.length - 30).forEach(k => delete authSockets[k]);\n    }\n    authSockets[token] = { ts: now, userId, role: userRole };\n    flow.set('authenticatedSockets', authSockets, 'file');\n\n    const client = msg._client;\n\n    // Out[0] → Navigate to DP (ui-control): performs SPA page navigation (no full reload)\n    const navMsg = { payload: { page: 'Temp' }, _client: client };\n\n    // Out[1] → Login Page: delivers token so the frontend can persist it in localStorage.\n    //          The Login Page MUST NOT call window.location.href — the ui-control already navigated.\n    const resultMsg = Object.assign({}, msg);\n    resultMsg.payload = { action: 'login-result', success: true, sessionToken: token, userId, role: userRole };\n    resultMsg._client = client;\n\n    const loginEvMsg = { payload: { event_type: 'login', event_desc: 'User ' + userId + ' logged in', user_id: userId } };\n    return [navMsg, resultMsg, loginEvMsg];\n\n} else {\n    const newFails = fails + 1;\n    flow.set(failKey, newFails);\n    if (newFails >= 3) {\n        flow.set(lockKey, now + 60000);\n        flow.set(failKey, 0);\n        msg.payload = { action: 'login-result', success: false, locked: true, secsLeft: 60 };\n    } else {\n        msg.payload = { action: 'login-result', success: false, locked: false, attemptsLeft: 3 - newFails };\n    }\n    return [null, msg];\n}",
         "outputs": 3,
@@ -749,20 +749,20 @@
         "y": 540,
         "wires": [
             [
-                "8aa1cde3c33015bb"
+                "757aaed2ffce2fad"
             ],
             [
-                "c5e822dd781b2741"
+                "c057d763d4988eb2"
             ],
             [
-                "c5e822dd781b2741"
+                "c057d763d4988eb2"
             ]
         ]
     },
     {
-        "id": "8aa1cde3c33015bb",
+        "id": "757aaed2ffce2fad",
         "type": "ui-control",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Navigate to DP",
         "ui": "98488f60b3c1e6bb",
         "x": 820,
@@ -772,9 +772,9 @@
         ]
     },
     {
-        "id": "87e79a7be454532b",
+        "id": "a21588b17a49cf7c",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Perf Live Data Pusher",
         "func": "// Receives from Update Row — ONLINE.\n// msg._logEntry = { slaveId, tempValue, alarm, ts }\nif (!msg._logEntry) return null;\n\nconst e = msg._logEntry;\nconst tv = Number(e.tempValue);\nif (isNaN(tv)) { node.warn('[LivePusher] tempValue is NaN for slave ' + e.slaveId); return null; }\n\nconst slaveId = Number(e.slaveId);\n\n// Build a second-level timestamp key: \"slaveId_YYYY-MM-DD HH:MM:SS\"\nconst d = new Date(typeof e.ts === 'number' ? e.ts : Number(e.ts));\nconst pad = n => String(n).padStart(2, '0');\nconst secKey = slaveId + '_' +\n    d.getFullYear() + '-' +\n    pad(d.getMonth() + 1) + '-' +\n    pad(d.getDate()) + ' ' +\n    pad(d.getHours()) + ':' +\n    pad(d.getMinutes()) + ':' +\n    pad(d.getSeconds());\n\n// Retrieve accumulator stored per slave\nlet buckets = context.get('secBuckets') || {};\n\n// If the key changed (new second), emit the average for the old second first\nlet outMsg = null;\nconst existing = buckets[slaveId];\n\nif (existing && existing.key !== secKey) {\n    // Compute average of accumulated values\n    const avg = existing.sum / existing.count;\n    // Determine alarm: if any reading in this second was ALERT, mark ALERT\n    const alarm = existing.hasAlert ? 'ALERT' : 'NORMAL';\n    outMsg = {\n        payload: {\n            action: 'chart-live-point',\n            slaveId: slaveId,\n            tempValue: avg,\n            alarm: alarm,\n            ts: existing.ts\n        }\n    };\n    // Start fresh bucket for new second\n    buckets[slaveId] = { key: secKey, sum: tv, count: 1, hasAlert: e.alarm === 'ALERT', ts: e.ts };\n} else if (!existing) {\n    // First reading for this slave\n    buckets[slaveId] = { key: secKey, sum: tv, count: 1, hasAlert: e.alarm === 'ALERT', ts: e.ts };\n} else {\n    // Same second — accumulate\n    buckets[slaveId].sum += tv;\n    buckets[slaveId].count += 1;\n    if (e.alarm === 'ALERT') buckets[slaveId].hasAlert = true;\n}\n\ncontext.set('secBuckets', buckets);\n\nreturn outMsg;\n",
         "outputs": 1,
@@ -787,14 +787,14 @@
         "y": 700,
         "wires": [
             [
-                "74746a28f4e9b6ce"
+                "72b07e8ddc9a7095"
             ]
         ]
     },
     {
-        "id": "5344f50dc9e89086",
+        "id": "26482d6e3f884abf",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Route Perf UI Messages",
         "func": "if (!msg.payload || !msg.payload.action) return null;\n\n// chart-query → Build Chart Query\nif (msg.payload.action === 'chart-query') return [msg, null];\n\n// session-check / do-logout → Session Check + Logout node\nif (msg.payload.action === 'session-check' || msg.payload.action === 'do-logout' || msg.payload.action === 'session-keepalive') return [null, msg];\n\nreturn null;",
         "outputs": 2,
@@ -807,17 +807,17 @@
         "y": 620,
         "wires": [
             [
-                "c0e483ec76022573"
+                "5110225c2206e26e"
             ],
             [
-                "3202a1a64c1851c6"
+                "f9b0622fe6795bf7"
             ]
         ]
     },
     {
-        "id": "c0e483ec76022573",
+        "id": "5110225c2206e26e",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Build Chart Query",
         "func": "if (!msg.payload || msg.payload.action !== 'chart-query') return null;\n\nconst p = msg.payload;\nconst slaveId = Number(p.slaveId);\n\nif (isNaN(slaveId) || slaveId < 1 || slaveId > 200) {\n    msg.payload = { action: 'chart-history-result', error: 'Invalid Slave ID (must be 1–200).' };\n    return [null, msg];\n}\nif (!p.dateFrom || !p.dateTo) {\n    msg.payload = { action: 'chart-history-result', error: 'Both From and To dates are required.' };\n    return [null, msg];\n}\n\nconst dateStart = p.dateFrom + ' 00:00:00';\nconst dateEnd   = p.dateTo   + ' 23:59:59';\nconst duration = parseInt(p.duration) || 5;\n\nlet periodExpr, groupBy;\n\nif (duration === 60) {\n    periodExpr = \"CONVERT(varchar(13), logged_at, 120) + ':00:00'\";\n    groupBy    = \"CONVERT(varchar(13), logged_at, 120)\";\n} else if (duration === 1) {\n    periodExpr = \"CONVERT(varchar(16), logged_at, 120) + ':00'\";\n    groupBy    = \"CONVERT(varchar(16), logged_at, 120)\";\n} else {\n    periodExpr = `CONVERT(varchar(16), DATEADD(minute, (DATEDIFF(minute, 0, logged_at) / ${duration}) * ${duration}, 0), 120)`;\n    groupBy    = `DATEADD(minute, (DATEDIFF(minute, 0, logged_at) / ${duration}) * ${duration}, 0)`;\n}\n\nmsg.topic = `\nSELECT\n    ${periodExpr} AS period,\n    ROUND(AVG(CAST(dp_value AS FLOAT)/10), 2) AS dp_value,\n    MAX(CASE WHEN alarm_status = 'ALERT' THEN 1 ELSE 0 END) AS had_alert\nFROM dp_log\nWHERE slave_id = ${slaveId}\n  AND logged_at BETWEEN '${dateStart}' AND '${dateEnd}'\nGROUP BY ${groupBy}\nORDER BY period\n`;\n\nmsg.payload = {};\nmsg._chartMeta = { slaveId, duration, dateFrom: p.dateFrom, dateTo: p.dateTo };\n\nreturn [msg, null];",
         "outputs": 2,
@@ -830,17 +830,17 @@
         "y": 620,
         "wires": [
             [
-                "ad4434a2e6619061"
+                "2580af36bfb72173"
             ],
             [
-                "74746a28f4e9b6ce"
+                "72b07e8ddc9a7095"
             ]
         ]
     },
     {
-        "id": "9782bbc1db59407f",
+        "id": "d5769072bb5f1fbe",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Format Chart Result",
         "func": "const rows = msg.payload || [];\nconst meta  = msg._chartMeta || {};\n\nmsg.payload = {\n    action: 'chart-history-result',\n    rows: rows.map(r => ({\n        period:    r.period,\n        dp_value:  parseFloat(r.dp_value),\n        had_alert: r.had_alert === 1 || r.had_alert === true\n    })),\n    meta:  meta,\n    count: rows.length\n};\n\nreturn msg;",
         "outputs": 1,
@@ -853,14 +853,14 @@
         "y": 620,
         "wires": [
             [
-                "74746a28f4e9b6ce"
+                "72b07e8ddc9a7095"
             ]
         ]
     },
     {
-        "id": "ad4434a2e6619061",
+        "id": "2580af36bfb72173",
         "type": "MSSQL",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "mssqlCN": "c7214cfdb99c6f92",
         "name": "MSSQL Chart Query",
         "outField": "payload",
@@ -881,16 +881,16 @@
         "y": 620,
         "wires": [
             [
-                "9782bbc1db59407f"
+                "d5769072bb5f1fbe"
             ]
         ]
     },
     {
-        "id": "680b7dae3f8d9437",
+        "id": "45f7954f61f7dac9",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Update Row — ONLINE",
-        "func": "const _cfgPath = 'C:/SPB_Data/.node-red/device_config.json';\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nlet slaveId = (msg.modbusRequest && msg.modbusRequest.unitid) ||\n              (msg.payload && msg.payload.unitid) ||\n              msg.slaveId || null;\n\nif (!slaveId) { node.warn('ONLINE: slaveId not found'); return null; }\n\nlet currentTime = Date.now();\nflow.set(`lastResponseTime_${slaveId}`, currentTime);\nflow.set(`isOffline_${slaveId}`, false);\n\nlet rawData = Array.isArray(msg.payload) ? msg.payload :\n              (msg.payload && msg.payload.data ? Array.from(msg.payload.data) : []);\n\nfunction toSigned16(val) { return val > 32767 ? val - 65536 : val; }\n\nconst cfg = _readCfg();\nconst device = (cfg.deviceSettings || {})['slave_' + slaveId] || { Destination: '', LSP: 0, HSP: 70 };\n\nlet rawTemp = toSigned16(rawData[0] ?? 0);\nlet tempValue = rawTemp / 10;\nlet alarm = (tempValue < device.LSP || tempValue > device.HSP) ? 'ALERT' : 'NORMAL';\n\nlet row = {\n    ID: slaveId,\n    Destination: device.Destination || '',\n    TempValue: tempValue.toFixed(1),\n    LSP: device.LSP,\n    HSP: device.HSP,\n    notifyEmail: device.notifyEmail || '',\n    Alarm: alarm,\n    Status: 'ONLINE',\n    lastSeen: currentTime\n};\n\nlet tableData = flow.get('tableData', 'file') || {};\nconst wasOffline = (tableData['slave_' + slaveId]?.Status === 'OFFLINE');\ntableData['slave_' + slaveId] = row;\nflow.set('tableData', tableData, 'file');\n\nif (wasOffline) node.warn(`[Back Online] Slave ${slaveId}`);\n\n// Add to activeSlaveIds in config only if in slaveIds and not already active\nconst explicitIds = (cfg.slaveIds || []).map(Number);\nif (explicitIds.includes(Number(slaveId))) {\n    const activeIds = (cfg.activeSlaveIds || []).map(Number);\n    if (!activeIds.includes(Number(slaveId))) {\n        cfg.activeSlaveIds = [...activeIds, Number(slaveId)].sort((a, b) => a - b);\n        _saveCfg(cfg);\n    }\n}\n\n// ── Periodic offline check (every 5 seconds) ──────────────────────────────────\n// Detects devices that stopped responding even if Modbus doesn't raise an error\nconst lastOfflineCheck = flow.get('lastOfflineCheck') || 0;\nif (currentTime - lastOfflineCheck > 5000) {\n    flow.set('lastOfflineCheck', currentTime);\n    const allActive = (cfg.activeSlaveIds || []).map(Number);\n    let cfgDirty = false;\n\n    allActive.forEach(id => {\n        if (Number(id) === Number(slaveId)) return; // this device just responded — skip\n        const lastSeen = flow.get(`lastResponseTime_${id}`) || 0;\n        const alreadyOffline = flow.get(`isOffline_${id}`) || false;\n        if (!alreadyOffline && lastSeen > 0 && (currentTime - lastSeen) > 5000) {\n            flow.set(`isOffline_${id}`, true);\n            const offDev = (cfg.deviceSettings || {})['slave_' + id] || { Destination: '', LSP: 0, HSP: 70 };\n            tableData['slave_' + id] = {\n                ID: id,\n                Destination: offDev.Destination || '',\n                TempValue: '-',\n                LSP: offDev.LSP,\n                HSP: offDev.HSP,\n                Alarm: 'OFFLINE',\n                Status: 'OFFLINE',\n                lastSeen: tableData['slave_' + id]?.lastSeen || 0\n            };\n            cfg.activeSlaveIds = (cfg.activeSlaveIds || []).filter(x => Number(x) !== id);\n            cfgDirty = true;\n            node.warn(`[Auto-OFFLINE] Slave ${id} — no response for ${Math.round((currentTime - lastSeen)/1000)}s`);\n        }\n    });\n\n    if (cfgDirty) {\n        flow.set('tableData', tableData, 'file');\n        _saveCfg(cfg);\n    }\n}\n// ─────────────────────────────────────────────────────────────────────────────\n\nconst SLAVE_IDS = cfg.slaveIds || [];\nmsg._logEntry = { slaveId, tempValue, alarm, ts: currentTime };\n\nconst lastUIUpdate = flow.get('lastUIUpdate') || 0;\nlet uiMsg = null;\nif (currentTime - lastUIUpdate >= 1000) {\n    flow.set('lastUIUpdate', currentTime);\n    uiMsg = { ...msg };\n    uiMsg.payload = SLAVE_IDS.map(id => tableData['slave_' + id] || {\n        ID: id, Destination: '', TempValue: '-',\n        LSP: 0, HSP: 70, Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n    });\n}\n\nreturn [msg, uiMsg];",
+        "func": "const _cfgPath = global.get('CONFIG_PATH');\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nlet slaveId = (msg.modbusRequest && msg.modbusRequest.unitid) ||\n              (msg.payload && msg.payload.unitid) ||\n              msg.slaveId || null;\n\nif (!slaveId) { node.warn('ONLINE: slaveId not found'); return null; }\n\nlet currentTime = Date.now();\nflow.set(`lastResponseTime_${slaveId}`, currentTime);\nflow.set(`isOffline_${slaveId}`, false);\n\nlet rawData = Array.isArray(msg.payload) ? msg.payload :\n              (msg.payload && msg.payload.data ? Array.from(msg.payload.data) : []);\n\nfunction toSigned16(val) { return val > 32767 ? val - 65536 : val; }\n\nconst cfg = _readCfg();\nconst device = (cfg.deviceSettings || {})['slave_' + slaveId] || { Destination: '', LSP: 0, HSP: 70 };\n\nlet rawTemp = toSigned16(rawData[0] ?? 0);\nlet tempValue = rawTemp / 10;\nlet alarm = (tempValue < device.LSP || tempValue > device.HSP) ? 'ALERT' : 'NORMAL';\n\nlet row = {\n    ID: slaveId,\n    Destination: device.Destination || '',\n    TempValue: tempValue.toFixed(1),\n    LSP: device.LSP,\n    HSP: device.HSP,\n    notifyEmail: device.notifyEmail || '',\n    Alarm: alarm,\n    Status: 'ONLINE',\n    lastSeen: currentTime\n};\n\nlet tableData = flow.get('tableData', 'file') || {};\nconst wasOffline = (tableData['slave_' + slaveId]?.Status === 'OFFLINE');\ntableData['slave_' + slaveId] = row;\nflow.set('tableData', tableData, 'file');\n\nif (wasOffline) node.warn(`[Back Online] Slave ${slaveId}`);\n\n// Add to activeSlaveIds in config only if in slaveIds and not already active\nconst explicitIds = (cfg.slaveIds || []).map(Number);\nif (explicitIds.includes(Number(slaveId))) {\n    const activeIds = (cfg.activeSlaveIds || []).map(Number);\n    if (!activeIds.includes(Number(slaveId))) {\n        cfg.activeSlaveIds = [...activeIds, Number(slaveId)].sort((a, b) => a - b);\n        _saveCfg(cfg);\n    }\n}\n\n// ── Periodic offline check (every 5 seconds) ──────────────────────────────────\n// Detects devices that stopped responding even if Modbus doesn't raise an error\nconst lastOfflineCheck = flow.get('lastOfflineCheck') || 0;\nif (currentTime - lastOfflineCheck > 5000) {\n    flow.set('lastOfflineCheck', currentTime);\n    const allActive = (cfg.activeSlaveIds || []).map(Number);\n    let cfgDirty = false;\n\n    allActive.forEach(id => {\n        if (Number(id) === Number(slaveId)) return; // this device just responded — skip\n        const lastSeen = flow.get(`lastResponseTime_${id}`) || 0;\n        const alreadyOffline = flow.get(`isOffline_${id}`) || false;\n        if (!alreadyOffline && lastSeen > 0 && (currentTime - lastSeen) > 5000) {\n            flow.set(`isOffline_${id}`, true);\n            const offDev = (cfg.deviceSettings || {})['slave_' + id] || { Destination: '', LSP: 0, HSP: 70 };\n            tableData['slave_' + id] = {\n                ID: id,\n                Destination: offDev.Destination || '',\n                TempValue: '-',\n                LSP: offDev.LSP,\n                HSP: offDev.HSP,\n                Alarm: 'OFFLINE',\n                Status: 'OFFLINE',\n                lastSeen: tableData['slave_' + id]?.lastSeen || 0\n            };\n            cfg.activeSlaveIds = (cfg.activeSlaveIds || []).filter(x => Number(x) !== id);\n            cfgDirty = true;\n            node.warn(`[Auto-OFFLINE] Slave ${id} — no response for ${Math.round((currentTime - lastSeen)/1000)}s`);\n        }\n    });\n\n    if (cfgDirty) {\n        flow.set('tableData', tableData, 'file');\n        _saveCfg(cfg);\n    }\n}\n// ─────────────────────────────────────────────────────────────────────────────\n\nconst SLAVE_IDS = cfg.slaveIds || [];\nmsg._logEntry = { slaveId, tempValue, alarm, ts: currentTime };\n\nconst lastUIUpdate = flow.get('lastUIUpdate') || 0;\nlet uiMsg = null;\nif (currentTime - lastUIUpdate >= 1000) {\n    flow.set('lastUIUpdate', currentTime);\n    uiMsg = { ...msg };\n    uiMsg.payload = SLAVE_IDS.map(id => tableData['slave_' + id] || {\n        ID: id, Destination: '', TempValue: '-',\n        LSP: 0, HSP: 70, Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n    });\n}\n\nreturn [msg, uiMsg];",
         "outputs": 2,
         "timeout": "",
         "noerr": 0,
@@ -910,19 +910,19 @@
         "y": 60,
         "wires": [
             [
-                "4b00657679621173",
-                "87e79a7be454532b",
-                "f00f5f883b5db3ae"
+                "5730db66b550f0a7",
+                "a21588b17a49cf7c",
+                "330259b01a728f90"
             ],
             [
-                "aa0f216b002b1015"
+                "cc342285c9f0d58f"
             ]
         ]
     },
     {
-        "id": "3202a1a64c1851c6",
+        "id": "f9b0622fe6795bf7",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Session Check + Logout",
         "func": "if (!msg.payload) return null;\n\nfunction readSockets() {\n    let s = flow.get('authenticatedSockets') || {};\n    if (Object.keys(s).length === 0) {\n        try { s = flow.get('authenticatedSockets', 'file') || {}; } catch (e) { }\n        if (Object.keys(s).length > 0) flow.set('authenticatedSockets', s);\n    }\n    return s;\n}\n\nfunction writeSockets(s) {\n    flow.set('authenticatedSockets', s);\n    try { flow.set('authenticatedSockets', s, 'file'); } catch (e) { }\n}\n\n// ── Silent keepalive ──────────────────────────────────────\nif (msg.payload.action === 'session-keepalive') {\n    const token = msg.payload.sessionToken || null;\n    let valid = false;\n    if (token) {\n        let s = readSockets();\n        if (s[token]) {\n            s[token].ts = Date.now();\n            writeSockets(s);\n            valid = true;\n        }\n    }\n    return {\n        payload: { action: 'keepalive-ack', success: valid, ts: Date.now() }\n    };\n}\n\n// ── Logout ────────────────────────────────────────────────\nif (msg.payload.action === 'do-logout') {\n    const token = msg.payload.sessionToken || null;\n    if (token) {\n        let s = readSockets();\n        delete s[token];\n        writeSockets(s);\n    }\n    const logoutEvMsg = { payload: { event_type: 'logout', event_desc: 'User logged out', user_id: msg.payload.userId || 'User' } };\n    msg.payload = { action: 'session-result', authenticated: false };\n    return [msg, logoutEvMsg];\n}\n\nif (msg.payload.action !== 'session-check') return null;\n\n// ── Session check ─────────────────────────────────────────\nconst token = msg.payload.sessionToken || null;\nlet authSockets = readSockets();\nconst session = token ? authSockets[token] : null;\n\nif (!session) {\n    if (token) {\n        // Token was provided but not found — deleted by logout\n        msg.payload = { action: 'session-result', authenticated: false };\n        return msg;\n    }\n    // No token — fresh browser, allow through as authenticated\n    const lastUser = Object.values(authSockets).slice(-1)[0] || {};\n    msg.payload = {\n        action: 'session-result',\n        authenticated: true,\n        userId: lastUser.userId || 'Admin',\n        role: lastUser.role || 'admin'\n    };\n    return msg;\n}\n\n// Refresh timestamp\nsession.ts = Date.now();\nauthSockets[token] = session;\nwriteSockets(authSockets);\n\nmsg.payload = {\n    action: 'session-result',\n    authenticated: true,\n    userId: session.userId || 'admin',\n    role: session.role || 'viewer'\n};\nreturn msg;",
         "outputs": 2,
@@ -935,20 +935,20 @@
         "y": 620,
         "wires": [
             [
-                "74746a28f4e9b6ce",
-                "17c77de7b09c7fb2",
-                "aa0f216b002b1015",
-                "d965373a0f489eb4"
+                "72b07e8ddc9a7095",
+                "f2aedcd1e3a1810c",
+                "cc342285c9f0d58f",
+                "d7e33157828a900b"
             ],
             [
-                "c5e822dd781b2741"
+                "c057d763d4988eb2"
             ]
         ]
     },
     {
-        "id": "4c251d93d27cfddc",
+        "id": "30d79561f29bbfec",
         "type": "ui-template",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "group": "ec2d755068cc1a13",
         "page": "",
         "ui": "",
@@ -967,14 +967,14 @@
         "y": 540,
         "wires": [
             [
-                "d3077497f57b43ee"
+                "8d605301f55c6fe2"
             ]
         ]
     },
     {
-        "id": "74746a28f4e9b6ce",
+        "id": "72b07e8ddc9a7095",
         "type": "ui-template",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "group": "a1b2c3d4e5f60002",
         "page": "",
         "ui": "",
@@ -993,14 +993,14 @@
         "y": 620,
         "wires": [
             [
-                "5344f50dc9e89086"
+                "26482d6e3f884abf"
             ]
         ]
     },
     {
-        "id": "da1df24b75e222ae",
+        "id": "d561328cc8e98558",
         "type": "ui-template",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "group": "",
         "page": "",
         "ui": "98488f60b3c1e6bb",
@@ -1019,16 +1019,16 @@
         "y": 520,
         "wires": [
             [
-                "3202a1a64c1851c6"
+                "f9b0622fe6795bf7"
             ]
         ]
     },
     {
-        "id": "f12cc8c4d8f57e6e",
+        "id": "125616818bf19cea",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Route UI Messages",
-        "func": "if (!msg.payload || !msg.payload.action) return null;\n\nif (msg.payload.action === 'device-settings-save') {\n    let d = msg.payload;\n    const slaveKey = 'slave_' + d.id;\n    const _fs2 = _fs, _path2 = _path;\n    const _cfgPath2 = 'C:/SPB_Data/.node-red/device_config.json';\n    let _cfg2; try { _cfg2 = JSON.parse(_fs2.readFileSync(_cfgPath2, 'utf8')); } catch(e) { _cfg2 = { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n    if (!_cfg2.deviceSettings) _cfg2.deviceSettings = {};\n    const oldSettings = _cfg2.deviceSettings[slaveKey] || {};\n    const oldEmail = oldSettings.notifyEmail || '';\n    const newEmail = d.notifyEmail || '';\n    _cfg2.deviceSettings[slaveKey] = { Destination: d.destination || '', LSP: parseFloat(d.lsp) || 0, HSP: parseFloat(d.hsp) || 0, notifyEmail: newEmail };\n    try { _fs2.writeFileSync(_cfgPath2, JSON.stringify(_cfg2, null, 2), 'utf8'); } catch(e) { node.warn('cfg write error: ' + e.message); }\n    let settings = _cfg2.deviceSettings;\n    let tableData = flow.get('tableData', 'file') || {};\n    let row = tableData[slaveKey] || {\n        ID: Number(d.id), Destination: '', TempValue: '-',\n        LSP: 0, HSP: 0, Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n    };\n    row.Destination = d.destination || '';\n    row.LSP = parseFloat(d.lsp) || 0;\n    row.HSP = parseFloat(d.hsp) || 0;\n    row.notifyEmail = newEmail;\n    tableData[slaveKey] = row;\n    flow.set('tableData', tableData, 'file');\n    const devLabel = 'Device ' + (d.id||'?') + (d.destination ? ' (' + d.destination + ')' : '');\n    const settingsEvMsg = { payload: { event_type: 'settings-changed', event_desc: devLabel + ' settings updated — Destination: ' + (d.destination||'-') + ', LSP: ' + (d.lsp||0) + ', HSP: ' + (d.hsp||0), user_id: 'Admin' } };\n    let emailEvMsg = null;\n    if (!oldEmail && newEmail) {\n        emailEvMsg = { payload: { event_type: 'settings-changed', event_desc: 'Notify email added for ' + devLabel + ': ' + newEmail, user_id: 'Admin' } };\n    } else if (oldEmail && !newEmail) {\n        emailEvMsg = { payload: { event_type: 'settings-changed', event_desc: 'Notify email removed for ' + devLabel, user_id: 'Admin' } };\n    } else if (oldEmail && newEmail && oldEmail !== newEmail) {\n        emailEvMsg = { payload: { event_type: 'settings-changed', event_desc: 'Notify email changed for ' + devLabel + ': ' + newEmail, user_id: 'Admin' } };\n    }\n    msg.payload = { action: 'device-settings-row-update', row: row };\n    const evtOutput = emailEvMsg ? [settingsEvMsg, emailEvMsg] : settingsEvMsg;\n    return [msg, null, null, null, null, null, null, evtOutput];\n}\n\nif (msg.payload.action === 'load-contacts') {\n    let contacts = [];\n    try {\n        const csv = _fs.readFileSync('C:/SPB_Data/.node-red/contacts.csv', 'utf8');\n        contacts = csv.split('\\n')\n            .map(l => l.trim()).filter(l => l && !l.startsWith('#'))\n            .map(l => { const p = l.split(','); return { name: (p[0]||'').trim(), email: (p[1]||'').trim() }; })\n            .filter(c => c.email && c.email.toLowerCase() !== 'email');\n    } catch(e) { contacts = []; }\n    msg.payload = { action: 'contacts-result', contacts };\n    return [msg, null, null, null, null, null, null, null];\n}\n\nif (msg.payload.action === 'event-log-query') return [null, null, null, msg, null, null, null, null];\nif (msg.payload.action === 'set-active-ids')  return [msg, null, null, null, null, null, null, null];\nif (msg.payload.action === 'save-email-config') {\n    const incomingPwd = msg.payload.password || '';\n    let dc; try { dc = JSON.parse(_fs.readFileSync('C:/SPB_Data/.node-red/device_config.json', 'utf8')); } catch(e) { dc = {}; }\n    const storedPwd = dc.emailSettingsPassword || '';\n    if (storedPwd && incomingPwd !== storedPwd) {\n        msg.payload = { action: 'email-config-result', error: 'Incorrect password.' };\n        return [msg, null, null, null, null, null, null, null];\n    }\n    const cfg = { fromEmail: (msg.payload.config || {}).fromEmail || '' };\n    flow.set('emailConfig', cfg, 'file');\n    dc.emailSettingsPassword = incomingPwd;\n    try { _fs.writeFileSync('C:/SPB_Data/.node-red/device_config.json', JSON.stringify(dc, null, 2), 'utf8'); } catch(e) { node.warn('cfg write error: ' + e.message); }\n    msg.payload = { action: 'email-config-result', config: cfg };\n    return [msg, null, null, null, null, null, null, null];\n}\n\nif (msg.payload.action === 'load-email-config') {\n    const cfg = flow.get('emailConfig', 'file') || { fromEmail: '' };\n    msg.payload = { action: 'email-config-result', config: { fromEmail: cfg.fromEmail || '' }, loadOnly: true };\n    return [msg, null, null, null, null, null, null, null];\n}\n\nif (msg.payload.action === 'change-email-password') {\n    const oldPwd = msg.payload.oldPassword || '';\n    const newPwd = msg.payload.newPassword || '';\n    let dc; try { dc = JSON.parse(_fs.readFileSync('C:/SPB_Data/.node-red/device_config.json', 'utf8')); } catch(e) { dc = {}; }\n    const storedPwd = dc.emailSettingsPassword || '';\n    if (storedPwd && oldPwd !== storedPwd) {\n        msg.payload = { action: 'change-password-result', success: false, error: 'Incorrect old password.' };\n        return [msg, null, null, null, null, null, null, null];\n    }\n    dc.emailSettingsPassword = newPwd;\n    try { _fs.writeFileSync('C:/SPB_Data/.node-red/device_config.json', JSON.stringify(dc, null, 2), 'utf8'); } catch(e) { node.warn('cfg write error: ' + e.message); }\n    msg.payload = { action: 'change-password-result', success: true };\n    return [msg, null, null, null, null, null, null, null];\n}\n\nif (msg.payload.action === 'auth-check')      return [null, msg, null, null, null, null, null, null];\nif (msg.payload.action === 'report-query')    return [null, null, msg, null, null, null, null, null];\nif (msg.payload.action === 'session-check' || msg.payload.action === 'do-logout')   return [null, null, null, null, msg, null, null, null];\nif (msg.payload.action === 'alarm-report-query') return [null, null, null, null, null, msg, null, null];\nif (msg.payload.action === 'ack-save')           return [null, null, null, null, null, null, msg, null];\nif (msg.payload.action === 'session-keepalive')  return [null, null, null, null, msg, null, null, null];\nif (msg.payload.action === 'get-slave-ids' || msg.payload.action === 'save-slave-ids')\n\nreturn [null, null, null, null, msg, null, null, null];",
+        "func": "if (!msg.payload || !msg.payload.action) return null;\n\nif (msg.payload.action === 'device-settings-save') {\n    let d = msg.payload;\n    const slaveKey = 'slave_' + d.id;\n    const _fs2 = _fs, _path2 = _path;\n    const _cfgPath2 = global.get('CONFIG_PATH');\n    let _cfg2; try { _cfg2 = JSON.parse(_fs2.readFileSync(_cfgPath2, 'utf8')); } catch(e) { _cfg2 = { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n    if (!_cfg2.deviceSettings) _cfg2.deviceSettings = {};\n    const oldSettings = _cfg2.deviceSettings[slaveKey] || {};\n    const oldEmail = oldSettings.notifyEmail || '';\n    const newEmail = d.notifyEmail || '';\n    _cfg2.deviceSettings[slaveKey] = { Destination: d.destination || '', LSP: parseFloat(d.lsp) || 0, HSP: parseFloat(d.hsp) || 0, notifyEmail: newEmail };\n    try { _fs2.writeFileSync(_cfgPath2, JSON.stringify(_cfg2, null, 2), 'utf8'); } catch(e) { node.warn('cfg write error: ' + e.message); }\n    let settings = _cfg2.deviceSettings;\n    let tableData = flow.get('tableData', 'file') || {};\n    let row = tableData[slaveKey] || {\n        ID: Number(d.id), Destination: '', TempValue: '-',\n        LSP: 0, HSP: 0, Alarm: 'OFFLINE', Status: 'OFFLINE', lastSeen: 0\n    };\n    row.Destination = d.destination || '';\n    row.LSP = parseFloat(d.lsp) || 0;\n    row.HSP = parseFloat(d.hsp) || 0;\n    row.notifyEmail = newEmail;\n    tableData[slaveKey] = row;\n    flow.set('tableData', tableData, 'file');\n    const devLabel = 'Device ' + (d.id||'?') + (d.destination ? ' (' + d.destination + ')' : '');\n    const settingsEvMsg = { payload: { event_type: 'settings-changed', event_desc: devLabel + ' settings updated — Destination: ' + (d.destination||'-') + ', LSP: ' + (d.lsp||0) + ', HSP: ' + (d.hsp||0), user_id: 'Admin' } };\n    let emailEvMsg = null;\n    if (!oldEmail && newEmail) {\n        emailEvMsg = { payload: { event_type: 'settings-changed', event_desc: 'Notify email added for ' + devLabel + ': ' + newEmail, user_id: 'Admin' } };\n    } else if (oldEmail && !newEmail) {\n        emailEvMsg = { payload: { event_type: 'settings-changed', event_desc: 'Notify email removed for ' + devLabel, user_id: 'Admin' } };\n    } else if (oldEmail && newEmail && oldEmail !== newEmail) {\n        emailEvMsg = { payload: { event_type: 'settings-changed', event_desc: 'Notify email changed for ' + devLabel + ': ' + newEmail, user_id: 'Admin' } };\n    }\n    msg.payload = { action: 'device-settings-row-update', row: row };\n    const evtOutput = emailEvMsg ? [settingsEvMsg, emailEvMsg] : settingsEvMsg;\n    return [msg, null, null, null, null, null, null, evtOutput];\n}\n\nif (msg.payload.action === 'load-contacts') {\n    let contacts = [];\n    try {\n        const csv = _fs.readFileSync(global.get('CONTACTS_PATH'), 'utf8');\n        contacts = csv.split('\\n')\n            .map(l => l.trim()).filter(l => l && !l.startsWith('#'))\n            .map(l => { const p = l.split(','); return { name: (p[0]||'').trim(), email: (p[1]||'').trim() }; })\n            .filter(c => c.email && c.email.toLowerCase() !== 'email');\n    } catch(e) { contacts = []; }\n    msg.payload = { action: 'contacts-result', contacts };\n    return [msg, null, null, null, null, null, null, null];\n}\n\nif (msg.payload.action === 'event-log-query') return [null, null, null, msg, null, null, null, null];\nif (msg.payload.action === 'set-active-ids')  return [msg, null, null, null, null, null, null, null];\nif (msg.payload.action === 'save-email-config') {\n    const incomingPwd = msg.payload.password || '';\n    let dc; try { dc = JSON.parse(_fs.readFileSync(global.get('CONFIG_PATH'), 'utf8')); } catch(e) { dc = {}; }\n    const storedPwd = dc.emailSettingsPassword || '';\n    if (storedPwd && incomingPwd !== storedPwd) {\n        msg.payload = { action: 'email-config-result', error: 'Incorrect password.' };\n        return [msg, null, null, null, null, null, null, null];\n    }\n    const cfg = { fromEmail: (msg.payload.config || {}).fromEmail || '' };\n    flow.set('emailConfig', cfg, 'file');\n    dc.emailSettingsPassword = incomingPwd;\n    try { _fs.writeFileSync(global.get('CONFIG_PATH'), JSON.stringify(dc, null, 2), 'utf8'); } catch(e) { node.warn('cfg write error: ' + e.message); }\n    msg.payload = { action: 'email-config-result', config: cfg, hasPassword: !!(incomingPwd) };\n    return [msg, null, null, null, null, null, null, null];\n}\n\nif (msg.payload.action === 'load-email-config') {\n    const cfg = flow.get('emailConfig', 'file') || { fromEmail: '' };\n    let _dc; try { _dc = JSON.parse(_fs.readFileSync(global.get('CONFIG_PATH'), 'utf8')); } catch(e) { _dc = {}; }\n    const hasPassword = !!(_dc.emailSettingsPassword);\n    msg.payload = { action: 'email-config-result', config: { fromEmail: cfg.fromEmail || '' }, hasPassword, loadOnly: true };\n    return [msg, null, null, null, null, null, null, null];\n}\n\nif (msg.payload.action === 'change-email-password') {\n    const oldPwd = msg.payload.oldPassword || '';\n    const newPwd = msg.payload.newPassword || '';\n    let dc; try { dc = JSON.parse(_fs.readFileSync(global.get('CONFIG_PATH'), 'utf8')); } catch(e) { dc = {}; }\n    const storedPwd = dc.emailSettingsPassword || '';\n    if (storedPwd && oldPwd !== storedPwd) {\n        msg.payload = { action: 'change-password-result', success: false, error: 'Incorrect old password.' };\n        return [msg, null, null, null, null, null, null, null];\n    }\n    dc.emailSettingsPassword = newPwd;\n    try { _fs.writeFileSync(global.get('CONFIG_PATH'), JSON.stringify(dc, null, 2), 'utf8'); } catch(e) { node.warn('cfg write error: ' + e.message); }\n    msg.payload = { action: 'change-password-result', success: true };\n    return [msg, null, null, null, null, null, null, null];\n}\n\nif (msg.payload.action === 'auth-check')      return [null, msg, null, null, null, null, null, null];\nif (msg.payload.action === 'report-query')    return [null, null, msg, null, null, null, null, null];\nif (msg.payload.action === 'session-check' || msg.payload.action === 'do-logout')   return [null, null, null, null, msg, null, null, null];\nif (msg.payload.action === 'alarm-report-query') return [null, null, null, null, null, msg, null, null];\nif (msg.payload.action === 'ack-save')           return [null, null, null, null, null, null, msg, null];\nif (msg.payload.action === 'session-keepalive')  return [null, null, null, null, msg, null, null, null];\nif (msg.payload.action === 'get-slave-ids' || msg.payload.action === 'save-slave-ids')\n\nreturn [null, null, null, null, msg, null, null, null];",
         "outputs": 8,
         "timeout": "",
         "noerr": 0,
@@ -1048,37 +1048,37 @@
         "y": 240,
         "wires": [
             [
-                "45054155a61c45fe"
+                "4d17381855ccf217"
             ],
             [
-                "3e1123c0e1c42902"
+                "475d13d34cfe209f"
             ],
             [
-                "c023a5364a175955"
+                "689c7a5954bea6dc"
             ],
             [
-                "8cedbe5f9146afe6"
+                "6ccff824035d0e68"
             ],
             [
-                "3202a1a64c1851c6"
+                "f9b0622fe6795bf7"
             ],
             [
-                "7b29aaf4c53db36f"
+                "b4f2ddc3f624c57d"
             ],
             [
-                "80725d02c9fac057"
+                "5694e3b1415cdca4"
             ],
             [
-                "c5e822dd781b2741"
+                "c057d763d4988eb2"
             ]
         ]
     },
     {
-        "id": "41887cde0b2bf2cc",
+        "id": "02174cdf76accb4c",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Format Report Result",
-        "func": "const rows     = msg.payload || [];\nconst meta     = msg._reportMeta || {};\nconst _fs3 = _fs, _path3 = _path;\nconst _cfgPath3 = 'C:/SPB_Data/.node-red/device_config.json';\nlet _cfg3; try { _cfg3 = JSON.parse(_fs3.readFileSync(_cfgPath3, 'utf8')); } catch(e) { _cfg3 = { deviceSettings: {} }; }\nconst settings = _cfg3.deviceSettings || {};\nconst duration = parseInt(meta.duration) || 5;\nconst durationMs = duration * 60 * 1000;\n\n// Group raw rows by slave_id (already ordered by logged_at from SQL)\nconst bySlave = {};\nrows.forEach(r => {\n    const sid = String(r.slave_id);\n    if (!bySlave[sid]) bySlave[sid] = [];\n    bySlave[sid].push(r);\n});\n\nconst pad = n => String(n).padStart(2, '0');\n\nfunction tsToStr(d) {\n    return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) +\n           ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());\n}\n\nconst result = [];\n\nObject.keys(bySlave).forEach(sid => {\n    const slaveRows = bySlave[sid];\n    if (!slaveRows.length) return;\n\n    const d = settings['slave_' + sid] || { Destination: '' };\n\n    // Anchor: the very first actual log timestamp for this slave\n    const firstTs  = new Date(slaveRows[0].logged_at.replace(' ', 'T'));\n    const lastTs   = new Date(slaveRows[slaveRows.length - 1].logged_at.replace(' ', 'T'));\n\n    let bucketStart = new Date(firstTs.getTime());\n    let rowIdx = 0; // walk forward instead of filtering for efficiency\n\n    while (bucketStart <= lastTs) {\n        const bucketEnd = new Date(bucketStart.getTime() + durationMs);\n\n        // Collect rows in [bucketStart, bucketEnd)\n        const inBucket = [];\n        while (rowIdx < slaveRows.length) {\n            const t = new Date(slaveRows[rowIdx].logged_at.replace(' ', 'T'));\n            if (t >= bucketEnd) break;\n            if (t >= bucketStart) inBucket.push(slaveRows[rowIdx]);\n            rowIdx++;\n        }\n\n        if (inBucket.length > 0) {\n            const sum = inBucket.reduce((s, r) => s + parseFloat(r.dp_value || 0), 0);\n            const avgVal  = sum / inBucket.length;\n            const hadAlert = inBucket.some(r => r.alarm_status === 'ALERT') ? 1 : 0;\n\n            result.push({\n                slave_id:      parseInt(sid),\n                period:        tsToStr(bucketStart),   // label = bucket start (first-log anchor)\n                dp_value:      Math.round(avgVal * 10) / 10,\n                reading_count: inBucket.length,\n                had_alert:     hadAlert,\n                location:      d.Destination || '',\n                roomNo:        d.Destination || ''\n            });\n        }\n\n        bucketStart = bucketEnd;\n    }\n});\n\n// Sort by slave_id then period\nresult.sort((a, b) => a.slave_id - b.slave_id || a.period.localeCompare(b.period));\n\nmsg.payload = {\n    action: 'report-result',\n    rows:   result,\n    meta,\n    count:  result.length\n};\nreturn msg;\n",
+        "func": "const rows     = msg.payload || [];\nconst meta     = msg._reportMeta || {};\nconst _fs3 = _fs, _path3 = _path;\nconst _cfgPath3 = global.get('CONFIG_PATH');\nlet _cfg3; try { _cfg3 = JSON.parse(_fs3.readFileSync(_cfgPath3, 'utf8')); } catch(e) { _cfg3 = { deviceSettings: {} }; }\nconst settings = _cfg3.deviceSettings || {};\nconst duration = parseInt(meta.duration) || 5;\nconst durationMs = duration * 60 * 1000;\n\n// Group raw rows by slave_id (already ordered by logged_at from SQL)\nconst bySlave = {};\nrows.forEach(r => {\n    const sid = String(r.slave_id);\n    if (!bySlave[sid]) bySlave[sid] = [];\n    bySlave[sid].push(r);\n});\n\nconst pad = n => String(n).padStart(2, '0');\n\nfunction tsToStr(d) {\n    return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) +\n           ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());\n}\n\nconst result = [];\n\nObject.keys(bySlave).forEach(sid => {\n    const slaveRows = bySlave[sid];\n    if (!slaveRows.length) return;\n\n    const d = settings['slave_' + sid] || { Destination: '' };\n\n    // Anchor: the very first actual log timestamp for this slave\n    const firstTs  = new Date(slaveRows[0].logged_at.replace(' ', 'T'));\n    const lastTs   = new Date(slaveRows[slaveRows.length - 1].logged_at.replace(' ', 'T'));\n\n    let bucketStart = new Date(firstTs.getTime());\n    let rowIdx = 0; // walk forward instead of filtering for efficiency\n\n    while (bucketStart <= lastTs) {\n        const bucketEnd = new Date(bucketStart.getTime() + durationMs);\n\n        // Collect rows in [bucketStart, bucketEnd)\n        const inBucket = [];\n        while (rowIdx < slaveRows.length) {\n            const t = new Date(slaveRows[rowIdx].logged_at.replace(' ', 'T'));\n            if (t >= bucketEnd) break;\n            if (t >= bucketStart) inBucket.push(slaveRows[rowIdx]);\n            rowIdx++;\n        }\n\n        if (inBucket.length > 0) {\n            const sum = inBucket.reduce((s, r) => s + parseFloat(r.dp_value || 0), 0);\n            const avgVal  = sum / inBucket.length;\n            const hadAlert = inBucket.some(r => r.alarm_status === 'ALERT') ? 1 : 0;\n\n            result.push({\n                slave_id:      parseInt(sid),\n                period:        tsToStr(bucketStart),   // label = bucket start (first-log anchor)\n                dp_value:      Math.round(avgVal * 10) / 10,\n                reading_count: inBucket.length,\n                had_alert:     hadAlert,\n                location:      d.Destination || '',\n                roomNo:        d.Destination || ''\n            });\n        }\n\n        bucketStart = bucketEnd;\n    }\n});\n\n// Sort by slave_id then period\nresult.sort((a, b) => a.slave_id - b.slave_id || a.period.localeCompare(b.period));\n\nmsg.payload = {\n    action: 'report-result',\n    rows:   result,\n    meta,\n    count:  result.length\n};\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -1098,15 +1098,15 @@
         "y": 440,
         "wires": [
             [
-                "17c77de7b09c7fb2",
-                "aa0f216b002b1015"
+                "f2aedcd1e3a1810c",
+                "cc342285c9f0d58f"
             ]
         ]
     },
     {
-        "id": "7b29aaf4c53db36f",
+        "id": "b4f2ddc3f624c57d",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Build Alarm Query",
         "func": "if (!msg.payload || msg.payload.action !== 'alarm-report-query') return null;\n\nconst p = msg.payload;\nconst slaveIds = (p.slaveIds || []).map(Number).filter(n => n >= 1 && n <= 200);\n\nif (slaveIds.length === 0) {\n    msg.payload = { action: 'alarm-report-result', error: 'No slave IDs selected.' };\n    return [null, msg];\n}\nif (!p.dateFrom || !p.dateTo) {\n    msg.payload = { action: 'alarm-report-result', error: 'Both date fields are required.' };\n    return [null, msg];\n}\n\nconst dateStart = p.dateFrom + ' ' + (p.hourFrom || '00') + ':00:00';\nconst dateEnd   = p.dateTo   + ' ' + (p.hourTo   || '23') + ':59:59';\n\nlet periodExpr, groupBy;\nif (p.interval === 'hourly') {\n    periodExpr = \"CONVERT(varchar(13), logged_at, 120) + ':00:00'\";\n    groupBy    = \"slave_id, CONVERT(varchar(13), logged_at, 120)\";\n} else if (p.interval === 'minutely') {\n    periodExpr = \"CONVERT(varchar(16), logged_at, 120) + ':00'\";\n    groupBy    = \"slave_id, CONVERT(varchar(16), logged_at, 120)\";\n} else {\n    periodExpr = \"CONVERT(varchar(10), logged_at, 120)\";\n    groupBy    = \"slave_id, CONVERT(varchar(10), logged_at, 120)\";\n}\n\nmsg.topic = `\nSELECT\n    slave_id,\n    ${periodExpr} AS period,\n    MIN(CASE WHEN alarm_status='ALERT' THEN dp_value END) AS min_alert_dp,\n    MAX(CASE WHEN alarm_status='ALERT' THEN dp_value END) AS max_alert_dp,\n    MIN(CASE WHEN alarm_status='ALERT' THEN logged_at END) AS alarm_start,\n    MAX(CASE WHEN alarm_status='ALERT' THEN logged_at END) AS alarm_end,\n    COUNT(CASE WHEN alarm_status='ALERT' THEN 1 END) AS alert_count\nFROM dp_log\nWHERE slave_id IN (${slaveIds.join(',')})\n  AND logged_at BETWEEN '${dateStart}' AND '${dateEnd}'\nGROUP BY ${groupBy}\nHAVING COUNT(CASE WHEN alarm_status='ALERT' THEN 1 END) > 0\nORDER BY slave_id, period\n`;\n\nmsg.payload = {};\nmsg._alarmMeta = { slaveIds, interval: p.interval, dateFrom: p.dateFrom, dateTo: p.dateTo };\nreturn [msg, null];",
         "outputs": 2,
@@ -1119,17 +1119,17 @@
         "y": 800,
         "wires": [
             [
-                "6074a1c6501595ae"
+                "96a88321a2b7fb08"
             ],
             [
-                "17c77de7b09c7fb2"
+                "f2aedcd1e3a1810c"
             ]
         ]
     },
     {
-        "id": "6074a1c6501595ae",
+        "id": "96a88321a2b7fb08",
         "type": "MSSQL",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "mssqlCN": "c7214cfdb99c6f92",
         "name": "MSSQL Alarm Query",
         "outField": "payload",
@@ -1150,14 +1150,14 @@
         "y": 800,
         "wires": [
             [
-                "a4bd358e9ada0b30"
+                "c4bec369438244f7"
             ]
         ]
     },
     {
-        "id": "a4bd358e9ada0b30",
+        "id": "c4bec369438244f7",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Format Alarm Result",
         "func": "const rows = msg.payload || [];\nconst meta = msg._alarmMeta || {};\nconst settings = flow.get('deviceSettings', 'file') || {};\nconst acks = flow.get('alarmAcks', 'file') || {};\n\nconst enriched = rows.map(r => {\n    const d = settings['slave_' + r.slave_id] || { Destination: '', LSP: -60, HSP: 60 };\n    const lsp = d.LSP != null ? d.LSP : -60;\n    const hsp = d.HSP != null ? d.HSP : 60;\n    const minDp = Number(r.min_alert_dp);\n    const maxDp = Number(r.max_alert_dp);\n    let alarmType = 'HIGH';\n    if (minDp < lsp && maxDp <= hsp) alarmType = 'LOW';\n    else if (maxDp > hsp && minDp < lsp) alarmType = 'HIGH';\n    const alertDp = alarmType === 'LOW' ? minDp : maxDp;\n    const ackKey = r.slave_id + '_' + r.period;\n    return {\n        slave_id:     Number(r.slave_id),\n        period:       r.period,\n        min_alert_dp: minDp,\n        max_alert_dp: maxDp,\n        alert_dp_value: alertDp,\n        alarm_start:  r.alarm_start,\n        alarm_end:    r.alarm_end,\n        alert_count:  Number(r.alert_count),\n        location:     d.Destination || '',\n        roomNo:       d.Destination || '',\n        lsp, hsp, alarmType,\n        ack: acks[ackKey] || null\n    };\n});\n\nmsg.payload = { action: 'alarm-report-result', rows: enriched, meta, count: enriched.length };\nreturn msg;",
         "outputs": 1,
@@ -1170,14 +1170,14 @@
         "y": 800,
         "wires": [
             [
-                "17c77de7b09c7fb2"
+                "f2aedcd1e3a1810c"
             ]
         ]
     },
     {
-        "id": "80725d02c9fac057",
+        "id": "5694e3b1415cdca4",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Handle ACK",
         "func": "if (!msg.payload || msg.payload.action !== 'ack-save') return null;\n\nconst d = msg.payload;\nconst acks = flow.get('alarmAcks', 'file') || {};\nconst key = d.slaveId + '_' + d.period;\n\nacks[key] = {\n    slaveId:     d.slaveId,\n    period:      d.period,\n    destination: d.destination || '',\n    alarmStart:  d.alarmStart,\n    alarmEnd:    d.alarmEnd,\n    ackedBy:     d.ackedBy || 'Unknown',\n    ackedAt:     new Date().toISOString(),\n    remarks:     d.remarks || ''\n};\nflow.set('alarmAcks', acks, 'file');\n\n// Log alarm acknowledgement event\n  try { node.send([null, { payload: { event_type: 'alarm-acked', event_desc: 'Alarm acknowledged for Device ' + (d.slaveId||'?') + ' (Period: ' + (d.period||'?') + ')', user_id: d.ackedBy || 'Admin' } }]); } catch(e) {}\n  msg.payload = { action: 'ack-result', success: true, key, ack: acks[key] };\nreturn msg;",
         "outputs": 2,
@@ -1189,17 +1189,17 @@
         "y": 740,
         "wires": [
             [
-                "17c77de7b09c7fb2"
+                "f2aedcd1e3a1810c"
             ],
             [
-                "c5e822dd781b2741"
+                "c057d763d4988eb2"
             ]
         ]
     },
     {
-        "id": "aa0f216b002b1015",
+        "id": "cc342285c9f0d58f",
         "type": "ui-template",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "group": "6eecc98fee50f850",
         "page": "",
         "ui": "",
@@ -1208,7 +1208,7 @@
         "width": "0",
         "height": "0",
         "head": "",
-        "format": "<template>\n  <div\n    style=\"width:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8FAFC;display:flex;flex-direction:column;height:calc(100vh - 54px);overflow:hidden;\"\n    @click=\"handleGlobalClick\">\n\n    <!-- HEADER -->\n    <div\n      style=\"display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:54px;background:#0F172A;box-shadow:0 1px 4px rgba(0,0,0,0.25);flex-shrink:0;\">\n      <div style=\"display:flex;align-items:center;gap:10px;\">\n        <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\">\n          <path d=\"M12 3C7.03 3 3 7.03 3 12c0 2.39.88 4.57 2.33 6.25\" stroke=\"rgba(255,255,255,0.9)\" stroke-width=\"1.8\"\n            stroke-linecap=\"round\" />\n          <path d=\"M12 3c4.97 0 9 4.03 9 9 0 2.39-.88 4.57-2.33 6.25\" stroke=\"rgba(255,255,255,0.9)\" stroke-width=\"1.8\"\n            stroke-linecap=\"round\" />\n          <circle cx=\"12\" cy=\"12\" r=\"1.5\" fill=\"white\" />\n          <line x1=\"12\" y1=\"12\" x2=\"8\" y2=\"8\" stroke=\"white\" stroke-width=\"1.6\" stroke-linecap=\"round\" />\n          <path d=\"M7 17h10\" stroke=\"rgba(255,255,255,0.3)\" stroke-width=\"1.2\" stroke-linecap=\"round\" />\n        </svg>\n        <span style=\"font-size:17px;font-weight:800;color:#fff;letter-spacing:-0.3px;\">Jetpace</span>\n        <span style=\"font-size:10px;color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:10px;font-weight:600;letter-spacing:.04em;\">Temp Monitor</span>\n      </div>\n      <div style=\"position:relative;\">\n        <button @click.stop=\"toggleUserMenu\" style=\"display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;\">\n        <span style=\"display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#3B82F6;border-radius:50%;font-size:11px;font-weight:800;\">{{ (loggedInUser||'U')[0].toUpperCase() }}</span>\n        {{ loggedInUser || 'User' }}\n        <svg :style=\"{transform: userMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition:'transform 0.2s'}\" width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M6 9l6 6 6-6\" stroke=\"rgba(255,255,255,0.6)\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      </button>\n        <div v-if=\"userMenuOpen\" @click.stop\n          style=\"position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid #E2E8F0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.12);z-index:9990;min-width:200px;overflow:hidden;\">\n          <div style=\"padding:12px 16px;border-bottom:1px solid #E2E8F0;background:#F8FAFC;\">\n            <div style=\"font-size:10px;color:#6B7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;\">\n              Signed in as</div>\n            <div style=\"font-size:14px;font-weight:700;color:#0F172A;\">{{ loggedInUser || 'User' }}</div>\n            <div @click.stop=\"openEmailSettings\"\n              style=\"padding:11px 16px;cursor:pointer;font-size:13px;color:#3B82F6;font-weight:600;display:flex;align-items:center;gap:8px;border-bottom:1px solid #E2E8F0;\"\n              onmouseover=\"this.style.background='#EFF6FF'\" onmouseout=\"this.style.background='#fff'\">\n              <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\">\n                <path d=\"M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z\" stroke=\"#3B82F6\"\n                  stroke-width=\"1.7\" />\n                <polyline points=\"22,6 12,13 2,6\" stroke=\"#3B82F6\" stroke-width=\"1.7\" />\n              </svg>\n              Email Settings\n            </div>\n            <div @click.stop=\"switchUser\"\n              style=\"padding:11px 16px;cursor:pointer;font-size:13px;color:#3B82F6;font-weight:600;display:flex;align-items:center;gap:8px;border-bottom:1px solid #E2E8F0;\"\n              onmouseover=\"this.style.background='#EFF6FF'\" onmouseout=\"this.style.background='#fff'\">\n              <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\">\n                <path d=\"M17 4l3 3-3 3M7 20l-3-3 3-3M20 7H9a3 3 0 000 6h2M4 17h11a3 3 0 000-6H9\" stroke=\"#3B82F6\"\n                  stroke-width=\"2\" stroke-linecap=\"round\" />\n              </svg>\n              Switch User\n            </div>\n          </div>\n          <div @click.stop=\"doLogout\"\n            style=\"padding:11px 16px;cursor:pointer;font-size:13px;color:#EF4444;font-weight:600;display:flex;align-items:center;gap:8px;\"\n            onmouseover=\"this.style.background='#FEF2F2'\" onmouseout=\"this.style.background='#fff'\">\n            <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\">\n              <path d=\"M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9\" stroke=\"#EF4444\" stroke-width=\"2\" />\n            </svg>Logout\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Active Slave IDs Input -->\n    <div\n      style=\"display:flex;gap:10px;align-items:center;padding:10px 20px;background:#F1F5F9;border-bottom:1px solid #E2E8F0;flex-wrap:wrap;\">\n      <span style=\"font-size:12px;font-weight:700;color:#3B82F6;white-space:nowrap;\">Active Slave IDs</span>\n      <input v-model=\"idInput\" type=\"text\" placeholder=\"e.g. 1,2,5,10-15,20\"\n      style=\"flex:1;min-width:180px;padding:7px 12px;border:1px solid #CBD5E1;border-radius:7px;font-size:13px;outline:none;color:#0F172A;background:#FFFFFF;\"\n      @keyup.enter=\"applyIds\"\n      onfocus=\"this.style.borderColor='#3B82F6';this.style.boxShadow='0 0 0 2px rgba(59,130,246,0.14)';\"\n      onblur=\"this.style.borderColor='#CBD5E1';this.style.boxShadow='none';\"/>\n      <button @click=\"applyIds\" style=\"padding:7px 18px;background:#3B82F6;color:#fff;border:none;border-radius:7px;cursor:pointer;font-size:13px;font-weight:700;\">Apply</button>\n    </div>\n\n    <!-- Stats Bars -->\n    <div\n      style=\"display:flex;gap:20px;align-items:center;padding:9px 20px;background:#FFFFFF;border-bottom:1px solid #E2E8F0;flex-wrap:wrap;\">\n      <span style=\"font-size:13px;color:#475569;\">Devices: <b style=\"color:#0F172A;\">{{ stats.total }}</b></span>\n      <span style=\"display:inline-flex;align-items:center;gap:5px;font-size:13px;\"><span style=\"width:7px;height:7px;border-radius:50%;background:#22C55E;display:inline-block;\"></span><span style=\"color:#475569;\">Online: <b style=\"color:#0F172A;\">{{ stats.online }}</b></span></span>\n      <span style=\"display:inline-flex;align-items:center;gap:5px;font-size:13px;\"><span style=\"width:7px;height:7px;border-radius:50%;background:#EF4444;display:inline-block;\"></span><span style=\"color:#475569;\">Alert: <b style=\"color:#0F172A;\">{{ stats.alert }}</b></span></span>\n      <span style=\"display:inline-flex;align-items:center;gap:5px;font-size:13px;\"><span style=\"width:7px;height:7px;border-radius:50%;background:#6B7280;display:inline-block;\"></span><span style=\"color:#475569;\">Offline: <b style=\"color:#0F172A;\">{{ stats.offline }}</b></span></span>\n    </div>\n\n    <!-- Table -->\n    <div style=\"padding:16px 20px;flex:1;\">\n      <div\n        style=\"background:#FFFFFF;border-radius:10px;border:1px solid #CBD5E1;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);\">\n        <div style=\"overflow-x:auto;max-height: calc(100vh - 280px); overflow-y: auto;\">\n          <table style=\"width:100%;border-collapse:collapse;font-size:13px;\">\n            <thead style=\"position:sticky;top:0;z-index:10;\">\n              <tr style=\"background:#1E293B;\">\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  ID</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  Destination</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  Temp Value</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  LSP</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  HSP</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  Status</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;\">\n                  Edit</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr v-for=\"(row, i) in tableData\" :key=\"row.ID\"\n                :style=\"{background:row.Status==='OFFLINE'?'#F8FAFC':(row.ID%2===0?'#FFFFFF':'#F8FAFC'),transition:'background 0.35s ease'}\">\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;font-weight:700;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#0F172A'}\">{{ row.ID }}</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#475569'}\">{{ row.Destination||'-' }}</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;font-weight:700;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#0F172A',transition:'color 0.35s ease'}\">{{ row.TempValue }} °C</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#6B7280'}\">{{ row.LSP }}</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#6B7280'}\">{{ row.HSP }}</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;\">\n                  <span :style=\"{display:'inline-flex',alignItems:'center',gap:'5px',padding:'3px 10px',borderRadius:'20px',fontSize:'11px',fontWeight:'700',transition:'background 0.35s ease,color 0.35s ease,border-color 0.35s ease',background:row.Status==='OFFLINE'?'#F1F5F9':(row.Alarm==='ALERT'?'#FEF2F2':'#F0FDF4'),color:row.Status==='OFFLINE'?'#6B7280':(row.Alarm==='ALERT'?'#EF4444':'#22C55E'),border:row.Status!=='OFFLINE'?(row.Alarm==='ALERT'?'1px solid #FECACA':'1px solid #BBF7D0'):'none'}\"><span :style=\"{width:'6px',height:'6px',borderRadius:'50%',display:'inline-block',transition:'background 0.35s ease',background:row.Status==='OFFLINE'?'#6B7280':(row.Alarm==='ALERT'?'#EF4444':'#22C55E')}\"></span>{{ row.Status==='OFFLINE'?'OFFLINE':(row.Alarm==='ALERT'?'ALERT':'NORMAL') }}</span>\n                </td>\n                <td style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;text-align:center;\">\n                  <button @click=\"row.Status!=='OFFLINE'&&handleEditClick(row)\" :disabled=\"row.Status==='OFFLINE'\"\n                  :style=\"{background:row.Status==='OFFLINE'?'#F1F5F9':'#EFF6FF',border:'1px solid '+(row.Status==='OFFLINE'?'#E2E8F0':'#BFDBFE'),color:row.Status==='OFFLINE'?'#CBD5E1':'#3B82F6',cursor:row.Status==='OFFLINE'?'not-allowed':'pointer'}\"\n                  style=\"border-radius:6px;padding:4px 12px;font-size:12px;font-weight:600;\">Edit</button>\n                </td>\n              </tr>\n              <tr v-if=\"tableData.length===0\">\n                <td colspan=\"8\" style=\"padding:32px;text-align:center;color:#6B7280;font-size:13px;\">No devices\n                  available. Use \"Active Slave IDs\" input above to add devices.</td>\n              </tr>\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n\n    <!-- Edit Modal -->\n    <div v-if=\"modalOpen\"\n      style=\"position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;\"\n      @click.self=\"closeModal\">\n      <div\n        style=\"background:#FFFFFF;border-radius:14px;padding:28px 30px;width:92%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid #E2E8F0;\">\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;\">\n          <div>\n            <div style=\"font-size:15px;font-weight:700;color:#0F172A;\">Edit Device Settings</div>\n            <div style=\"font-size:12px;color:#6B7280;margin-top:2px;\">Slave ID:\n              <b style=\"color:#3B82F6;\">{{ editData.ID }}</b></div>\n          </div>\n          <button @click=\"closeModal\" style=\"background:#F1F5F9;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;color:#475569;\">X</button>\n        </div>\n        <div style=\"display:flex;flex-direction:column;gap:15px;\">\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Destination</label>\n            <input v-model=\"editData.Destination\" type=\"text\" placeholder=\"e.g. Cold Room A\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;background:#FFFFFF;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n          </div>\n          <div style=\"display:flex;gap:12px;\">\n            <div style=\"flex:1;\">\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">LSP</label><input v-model.number=\"editData.LSP\" type=\"number\" placeholder=\"0\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n            <div style=\"flex:1;\">\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">HSP</label><input v-model.number=\"editData.HSP\" type=\"number\" placeholder=\"0\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n          </div>\n          <p v-if=\"editData.LSP>=editData.HSP\"\n            style=\"margin:0;color:#EF4444;font-size:12px;background:#FEF2F2;padding:8px 11px;border-radius:7px;border-left:3px solid #EF4444;\">\n            LSP must be less than HSP</p>\n          <div>\n            <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;\">\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.06em;\">Notify Email</label>\n              <span @click=\"refreshContacts\" style=\"font-size:11px;color:#3B82F6;cursor:pointer;font-weight:600;\">&#8635; Refresh</span>\n            </div>\n            <select v-model=\"editData.notifyEmail\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;background:#FFFFFF;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\">\n              <option value=\"\">— None —</option>\n              <option v-if=\"editData.notifyEmail && !contacts.find(c => c.email === editData.notifyEmail)\" :value=\"editData.notifyEmail\">{{ editData.notifyEmail }}</option>\n              <option v-for=\"c in contacts\" :key=\"c.email\" :value=\"c.email\">{{ c.name }} – {{ c.email }}</option>\n            </select>\n          </div>\n        </div>\n        <div\n          style=\"display:flex;justify-content:flex-end;gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid #E2E8F0;\">\n          <button @click=\"closeModal\" style=\"padding:9px 20px;border:1px solid #E2E8F0;background:#FFFFFF;border-radius:8px;cursor:pointer;font-size:13px;color:#475569;font-weight:600;\">Cancel</button>\n          <button @click=\"saveSettings\" :disabled=\"editData.LSP>=editData.HSP\" :style=\"{opacity:editData.LSP>=editData.HSP?'0.4':'1'}\" style=\"padding:9px 20px;border:none;background:#3B82F6;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;\">Save</button>\n        </div>\n      </div>\n    </div>\n\n    <!-- Auth Modal -->\n    <div v-if=\"authModalOpen\"\n      style=\"position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.5);z-index:9998;display:flex;align-items:center;justify-content:center;\"\n      @click.self=\"closeAuthModal\">\n      <div\n        style=\"background:#FFFFFF;border-radius:14px;padding:30px 32px;width:92%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid #E2E8F0;\">\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;\">\n          <div>\n            <div style=\"font-size:16px;font-weight:700;color:#0F172A;\">Admin Access Required</div>\n            <div style=\"font-size:12px;color:#6B7280;margin-top:3px;\">{{ authPurpose }}</div>\n          </div>\n          <button @click=\"closeAuthModal\" style=\"background:#F1F5F9;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;color:#475569;\">X</button>\n        </div>\n        <div v-if=\"authLocked\"\n          style=\"background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:11px 14px;margin-bottom:16px;font-size:13px;color:#EA580C;\">\n          Too many attempts. Try again in <b>{{ lockCountdown }}s</b>.</div>\n        <div v-else style=\"display:flex;flex-direction:column;gap:14px;\">\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">User ID</label><input v-model=\"authUserId\" type=\"text\" placeholder=\"Enter user ID\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\" @keyup.enter=\"submitAuth\"/>\n          </div>\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Password</label>\n            <div style=\"position:relative;\">\n              <input v-model=\"authPassword\" :type=\"showPass?'text':'password'\" placeholder=\"Enter password\" style=\"width:100%;box-sizing:border-box;padding:10px 38px 10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\" @keyup.enter=\"submitAuth\"/><span @click=\"showPass=!showPass\" style=\"position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14px;color:#6B7280;\">{{ showPass?'Hide':'Show' }}</span>\n            </div>\n          </div>\n          <div v-if=\"authError\"\n            style=\"background:#FEF2F2;border:1px solid #FECACA;border-radius:7px;padding:9px 12px;font-size:12px;color:#EF4444;\">\n            {{ authError }}</div>\n        </div>\n        <div\n          style=\"display:flex;justify-content:flex-end;gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid #E2E8F0;\">\n          <button @click=\"closeAuthModal\" style=\"padding:9px 20px;border:1px solid #E2E8F0;background:#FFFFFF;border-radius:8px;cursor:pointer;font-size:13px;color:#475569;font-weight:600;\">Cancel</button>\n          <button @click=\"submitAuth\" :disabled=\"authLocked||!authUserId||!authPassword\" :style=\"{opacity:(authLocked||!authUserId||!authPassword)?'0.4':'1'}\" style=\"padding:9px 22px;border:none;background:#3B82F6;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;\">Unlock</button>\n        </div>\n      </div>\n    </div>\n\n    <!-- Email Settings Modal -->\n    <div v-if=\"emailModalOpen\"\n      style=\"position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;\"\n      @click.self=\"emailModalOpen=false\">\n      <div\n        style=\"background:#FFFFFF;border-radius:14px;padding:28px 30px;width:92%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid #E2E8F0;\">\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;\">\n          <div>\n            <div style=\"font-size:15px;font-weight:700;color:#0F172A;\">Email Settings</div>\n            <div style=\"font-size:12px;color:#6B7280;margin-top:2px;\">Configure sender address</div>\n          </div>\n          <button @click=\"emailModalOpen=false\" style=\"background:#F1F5F9;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;color:#475569;\">&#x2715;</button>\n        </div>\n        <div style=\"display:flex;flex-direction:column;gap:14px;\">\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">From Email</label>\n            <input v-model=\"emailCfg.fromEmail\" type=\"email\" placeholder=\"alerts@company.com\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n          </div>\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Password</label>\n            <div style=\"position:relative;\">\n              <input v-model=\"emailPassword\" :type=\"showEmailPass?'text':'password'\" placeholder=\"Enter password\" style=\"width:100%;box-sizing:border-box;padding:10px 52px 10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n              <span @click=\"showEmailPass=!showEmailPass\" style=\"position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:12px;color:#6B7280;font-weight:600;\">{{ showEmailPass?'Hide':'Show' }}</span>\n            </div>\n          </div>\n          <p v-if=\"emailSettingsError\" style=\"margin:0;color:#EF4444;font-size:12px;background:#FEF2F2;padding:8px 11px;border-radius:7px;border-left:3px solid #EF4444;\">{{ emailSettingsError }}</p>\n          <p v-if=\"changePasswordSuccess\" style=\"margin:0;color:#16A34A;font-size:12px;background:#F0FDF4;padding:8px 11px;border-radius:7px;border-left:3px solid #16A34A;\">{{ changePasswordSuccess }}</p>\n          <!-- Change Password section -->\n          <div v-if=\"changePasswordOpen\" style=\"display:flex;flex-direction:column;gap:12px;padding:14px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0;\">\n            <div style=\"font-size:12px;font-weight:700;color:#475569;margin-bottom:2px;\">Change Password</div>\n            <div>\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Old Password</label>\n              <input v-model=\"emailOldPassword\" type=\"password\" placeholder=\"Current password\" style=\"width:100%;box-sizing:border-box;padding:9px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n            <div>\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">New Password</label>\n              <input v-model=\"emailNewPassword\" type=\"password\" placeholder=\"New password\" style=\"width:100%;box-sizing:border-box;padding:9px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n            <div>\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Confirm New Password</label>\n              <input v-model=\"emailConfirmNewPassword\" type=\"password\" placeholder=\"Confirm new password\" style=\"width:100%;box-sizing:border-box;padding:9px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n            <p v-if=\"emailNewPassword && emailNewPassword!==emailConfirmNewPassword\" style=\"margin:0;color:#EF4444;font-size:12px;background:#FEF2F2;padding:7px 10px;border-radius:7px;border-left:3px solid #EF4444;\">Passwords do not match.</p>\n            <p v-if=\"changePasswordError\" style=\"margin:0;color:#EF4444;font-size:12px;background:#FEF2F2;padding:7px 10px;border-radius:7px;border-left:3px solid #EF4444;\">{{ changePasswordError }}</p>\n          </div>\n        </div>\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding-top:16px;border-top:1px solid #E2E8F0;\">\n          <span @click=\"changePasswordOpen=!changePasswordOpen;changePasswordError='';changePasswordSuccess=''\" style=\"font-size:12px;color:#3B82F6;cursor:pointer;font-weight:600;text-decoration:underline;\">{{ changePasswordOpen ? 'Cancel' : 'Change Password' }}</span>\n          <div style=\"display:flex;gap:10px;\">\n            <button v-if=\"changePasswordOpen\" @click=\"changeEmailPassword\" :disabled=\"!emailOldPassword||!emailNewPassword||emailNewPassword!==emailConfirmNewPassword\" :style=\"{opacity:(!emailOldPassword||!emailNewPassword||emailNewPassword!==emailConfirmNewPassword)?'0.4':'1'}\" style=\"padding:9px 18px;border:none;background:#0F172A;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;\">Update</button>\n            <button v-if=\"!changePasswordOpen\" @click=\"emailModalOpen=false\" style=\"padding:9px 20px;border:1px solid #E2E8F0;background:#FFFFFF;border-radius:8px;cursor:pointer;font-size:13px;color:#475569;font-weight:600;\">Cancel</button>\n            <button v-if=\"!changePasswordOpen\" @click=\"saveEmailConfig\" :disabled=\"!emailCfg.fromEmail||!emailPassword\" :style=\"{opacity:(!emailCfg.fromEmail||!emailPassword)?'0.4':'1'}\" style=\"padding:9px 20px;border:none;background:#3B82F6;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;\">Save</button>\n          </div>\n        </div>\n      </div>\n    </div>\n    <transition name=\"noperm-fade\">\n      <div v-if=\"noPermVisible\"\n        style=\"position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:99999;background:#F0E9C8;color:#937D4A;padding:14px 28px;border-radius:12px;font-size:14px;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,0.35);display:flex;align-items:center;gap:10px;white-space:nowrap;pointer-events:none;\">\n        <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\">\n          <circle cx=\"12\" cy=\"12\" r=\"9\" stroke=\"#EF4444\" stroke-width=\"1.8\" />\n          <path d=\"M12 8v4M12 16h.01\" stroke=\"#EF4444\" stroke-width=\"1.8\" stroke-linecap=\"round\" />\n        </svg>\n        <span>You don't have permission to perform this action.</span>\n      </div>\n    </transition>\n    <style>\n      .noperm-fade-enter-active,\n      .noperm-fade-leave-active {\n        transition: opacity .25s ease, transform .25s ease;\n      }\n\n      .noperm-fade-enter-from,\n      .noperm-fade-leave-to {\n        opacity: 0;\n        transform: translateX(-50%) translateY(-8px);\n      }\n    </style>\n  </div>\n</template>\n\n<script>\n  export default {\n  data() {\n    return {\n      tableData: [], \n      idInput: '', \n      loggedInUser: '', \n      userMenuOpen: false, \n      userRole: 'viewer', \n      noPermVisible: false,\n      modalOpen: false, \n      editData: { ID: null, Destination: '', LSP: 0, HSP: 0, notifyEmail: '' },\n      authModalOpen: false, \n      authPurpose: '', \n      authUserId: '', \n      authPassword: '', \n      authError: '', \n      authLocked: false, \n      lockCountdown: 0, \n      showPass: false, \n      pendingRow: null,\n      _authCallback: null, \n      _lockTimer: null,\n      emailModalOpen: false, \n      showEmailPass: false,\n      contacts: [],\n      emailPassword: '',\n      emailSettingsError: '',\n      changePasswordOpen: false,\n      emailOldPassword: '',\n      emailNewPassword: '',\n      emailConfirmNewPassword: '',\n      changePasswordError: '',\n      changePasswordSuccess: '',\n      emailCfg: { fromEmail: '' },\n      _updateTimer: null,\n      _keepAliveInterval: null,\n      slaveInput: localStorage.getItem('jp_slave_ids') || '',\n    };\n  },\ncomputed: {\n  stats() {\n    return {\n      total: this.tableData.length,\n      online: this.tableData.filter(r => r.Status === 'ONLINE' && r.Alarm !== 'ALERT').length,\n      alert: this.tableData.filter(r => r.Status === 'ONLINE' && r.Alarm === 'ALERT').length,\n      offline: this.tableData.filter(r => r.Status === 'OFFLINE').length\n    };\n  }\n},\n  mounted() {\n    const tok = localStorage.getItem('jp_session_token') || '';\n    this.send({ payload: { action: 'session-check', sessionToken: tok } });\n    this.send({ payload: { action: 'get-slave-ids' } });\n    this.userRole = localStorage.getItem('jp_role') || 'viewer';\n    this.loadEmailConfig();\n    this._keepAliveInterval = setInterval(() => {\n      const token = localStorage.getItem('jp_session_token') || '';\n      if (token) this.send({ payload: { action: 'session-keepalive', sessionToken: token } });\n    }, 30000);\n  },\n  beforeUnmount() {\n    if (this._keepAliveInterval) clearInterval(this._keepAliveInterval);\n    if (this._lockTimer) clearInterval(this._lockTimer);\n    if (this._updateTimer) clearTimeout(this._updateTimer);\n  },\n  methods: {\n    handleGlobalClick() { \n      this.userMenuOpen = false; \n    },\n    toggleUserMenu(e) { \n      e.stopPropagation(); \n      this.userMenuOpen = !this.userMenuOpen; \n    },\n    doLogout() { \n      this.userMenuOpen = false; \n      const tok = localStorage.getItem('jp_session_token') || ''; \n      localStorage.removeItem('jp_session_token'); \n      localStorage.removeItem('jp_auth'); \n      localStorage.removeItem('jp_role'); \n      this.send({ payload: { action: 'do-logout', sessionToken: tok } }); \n    },\n    switchUser() { \n      this.userMenuOpen = false; \n      const tok = localStorage.getItem('jp_session_token') || ''; \n      localStorage.removeItem('jp_session_token'); \n      localStorage.removeItem('jp_auth'); \n      localStorage.removeItem('jp_user'); \n      localStorage.removeItem('jp_role'); \n      this.send({ payload: { action: 'do-logout', sessionToken: tok } }); \n    },\n    applyIds() { \n      if (!this.idInput.trim()) return; \n      this.send({ payload: { action: 'set-active-ids', raw: this.idInput } }); \n    },\n    handleEditClick(row) { \n      if (this.userRole !== 'admin') { \n        this.showNoPermission(); \n        return; \n      } \n      this.openModal(row); \n    },\n    showNoPermission() { \n      this.noPermVisible = true; \n      setTimeout(() => { \n        this.noPermVisible = false; \n      }, 3000); \n    },\n    openModal(row) {\n      this.editData = {\n        ID: row.ID,\n        Destination: row.Destination || '',\n        LSP: row.LSP != null ? row.LSP : 0,\n        HSP: row.HSP != null ? row.HSP : 0,\n        notifyEmail: row.notifyEmail || ''\n      };\n      this.send({ payload: { action: 'load-contacts' } });\n      this.modalOpen = true;\n    },\n    closeModal() { \n      this.modalOpen = false; \n    },\n    saveSettings() {\n      if (this.editData.LSP >= this.editData.HSP) return;\n      this.send({\n        payload: {\n          action: 'device-settings-save',\n          id: this.editData.ID,\n          destination: this.editData.Destination,\n          lsp: this.editData.LSP,\n          hsp: this.editData.HSP,\n          notifyEmail: this.editData.notifyEmail\n        }\n      });\n      this.modalOpen = false;\n    },\n    refreshContacts() {\n      this.send({ payload: { action: 'load-contacts' } });\n    },\n    openEmailSettings() { \n      this.userMenuOpen = false; \n      this.emailModalOpen = true; \n      this.loadEmailConfig(); \n    },\n    changeEmailPassword() {\n      if (!this.emailOldPassword || !this.emailNewPassword || this.emailNewPassword !== this.emailConfirmNewPassword) return;\n      this.changePasswordError = '';\n      this.changePasswordSuccess = '';\n      this.send({ payload: { action: 'change-email-password', oldPassword: this.emailOldPassword, newPassword: this.emailNewPassword } });\n    },\n    loadEmailConfig() {\n      this.emailPassword = '';\n      this.emailSettingsError = '';\n      this.changePasswordOpen = false;\n      this.changePasswordError = '';\n      this.changePasswordSuccess = '';\n      this.send({ payload: { action: 'load-email-config' } });\n    },\n    saveEmailConfig() {\n      if (!this.emailCfg.fromEmail || !this.emailPassword) return;\n      this.emailSettingsError = '';\n      this.send({ payload: { action: 'save-email-config', config: { fromEmail: this.emailCfg.fromEmail }, password: this.emailPassword } });\n    },\n    testEmail() { \n      this.send({ payload: { action: 'test-email', config: { ...this.emailCfg } } }); \n    },\n    closeAuthModal() { \n      this.authModalOpen = false; \n      this.pendingRow = null; \n      this._authCallback = null; \n      if (this._lockTimer) clearInterval(this._lockTimer); \n    },\n    submitAuth() { \n      if (this.authLocked || !this.authUserId || !this.authPassword) return; \n      this.send({ payload: { action: 'auth-check', userId: this.authUserId, password: this.authPassword } }); \n    },\n    handleAuthResult(r) {\n      if (r.success) { \n        this.authModalOpen = false; \n        if (this._authCallback === 'edit' && this.pendingRow) { \n          this.openModal(this.pendingRow); \n          this.pendingRow = null; \n        } \n        this._authCallback = null; \n      } else if (r.locked) { \n        this.authLocked = true; \n        this.lockCountdown = r.secsLeft; \n        this.authError = ''; \n        if (this._lockTimer) clearInterval(this._lockTimer);\n        this._lockTimer = setInterval(() => { \n          this.lockCountdown--; \n          if (this.lockCountdown <= 0) { \n            this.authLocked = false; \n            if (this._lockTimer) clearInterval(this._lockTimer); \n          } \n        }, 1000); \n      } else { \n        this.authError = 'Invalid credentials. ' + (r.attemptsLeft || 0) + ' attempt(s) remaining.'; \n        this.authPassword = ''; \n      }\n    },\n    _smartUpdateTable(incoming) {\n      if (!Array.isArray(incoming) || incoming.length === 0) return;\n      \n      const existingMap = new Map(this.tableData.map(r => [r.ID, r]));\n      const incomingIds = new Set(incoming.map(r => r.ID));\n      let hasChanges = false;\n      \n      // Update or add rows\n      for (const newRow of incoming) {\n        const old = existingMap.get(newRow.ID);\n        if (!old) {\n          this.tableData.push(newRow);\n          hasChanges = true;\n        } else {\n          // Check for actual changes\n          let changed = false;\n          for (const key of Object.keys(newRow)) {\n            if (old[key] !== newRow[key]) {\n              changed = true;\n              break;\n            }\n          }\n          if (changed) {\n            Object.assign(old, newRow);\n            hasChanges = true;\n          }\n        }\n      }\n      \n      // Remove rows no longer in incoming\n      const toRemove = [];\n      for (let i = 0; i < this.tableData.length; i++) {\n        if (!incomingIds.has(this.tableData[i].ID)) {\n          toRemove.push(i);\n        }\n      }\n      for (let i = toRemove.length - 1; i >= 0; i--) {\n        this.tableData.splice(toRemove[i], 1);\n        hasChanges = true;\n      }\n      \n    }\n  },\n  watch: {\n    msg(m) {\n      if (!m || !m.payload) return;\n      const p = m.payload;\n      if (p.action === 'session-result') {\n        if (!p.authenticated) { \n          localStorage.removeItem('jp_session_token'); \n          localStorage.removeItem('jp_auth'); \n          window.location.href = '/dashboard/login'; \n          return; \n        }\n        if (p.userId) { \n          this.loggedInUser = p.userId; \n          this.userRole = p.role || 'viewer'; \n          localStorage.setItem('jp_user', p.userId); \n          localStorage.setItem('jp_auth', '1'); \n          localStorage.setItem('jp_role', p.role || 'viewer'); \n        }\n        return;\n      }\n      if (p.action === 'auth-result') { \n        this.handleAuthResult(p); \n        return; \n      }\n      if (p.action === 'email-config-result') {\n        if (p.error) {\n          this.emailSettingsError = p.error;\n        } else {\n          this.emailCfg = { ...this.emailCfg, ...(p.config || {}) };\n          this.emailSettingsError = '';\n          if (!p.loadOnly) {\n            this.emailModalOpen = false;\n            this.emailPassword = '';\n          }\n        }\n        return;\n      }\n      if (p.action === 'change-password-result') {\n        if (p.success) {\n          this.changePasswordSuccess = 'Password updated successfully.';\n          this.changePasswordError = '';\n          this.emailOldPassword = '';\n          this.emailNewPassword = '';\n          this.emailConfirmNewPassword = '';\n          this.changePasswordOpen = false;\n        } else {\n          this.changePasswordError = p.error || 'Incorrect old password.';\n        }\n        return;\n      }\n      if (p.action === 'contacts-result') {\n        this.contacts = p.contacts || [];\n        return;\n      }\n      if (p.action === 'device-settings-row-update' && p.row) {\n        const idx = this.tableData.findIndex(r => r.ID === p.row.ID);\n        if (idx >= 0) { \n          this.tableData.splice(idx, 1, p.row); \n          this._statsDirty = true; \n        }\n        return;\n      }\n      if (Array.isArray(p) && p.length > 0) {\n        // Debounce: wait 16ms before updating\n        if (this._updateTimer) clearTimeout(this._updateTimer);\n        this._updateTimer = setTimeout(() => {\n          this._smartUpdateTable(p);\n        }, 200);\n      }\n    }\n  }\n};\n</script>",
+        "format": "<template>\n  <div\n    style=\"width:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8FAFC;display:flex;flex-direction:column;height:calc(100vh - 54px);overflow:hidden;\"\n    @click=\"handleGlobalClick\">\n\n    <!-- HEADER -->\n    <div\n      style=\"display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:54px;background:#0F172A;box-shadow:0 1px 4px rgba(0,0,0,0.25);flex-shrink:0;\">\n      <div style=\"display:flex;align-items:center;gap:10px;\">\n        <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\">\n          <path d=\"M12 3C7.03 3 3 7.03 3 12c0 2.39.88 4.57 2.33 6.25\" stroke=\"rgba(255,255,255,0.9)\" stroke-width=\"1.8\"\n            stroke-linecap=\"round\" />\n          <path d=\"M12 3c4.97 0 9 4.03 9 9 0 2.39-.88 4.57-2.33 6.25\" stroke=\"rgba(255,255,255,0.9)\" stroke-width=\"1.8\"\n            stroke-linecap=\"round\" />\n          <circle cx=\"12\" cy=\"12\" r=\"1.5\" fill=\"white\" />\n          <line x1=\"12\" y1=\"12\" x2=\"8\" y2=\"8\" stroke=\"white\" stroke-width=\"1.6\" stroke-linecap=\"round\" />\n          <path d=\"M7 17h10\" stroke=\"rgba(255,255,255,0.3)\" stroke-width=\"1.2\" stroke-linecap=\"round\" />\n        </svg>\n        <span style=\"font-size:17px;font-weight:800;color:#fff;letter-spacing:-0.3px;\">Jetpace</span>\n        <span style=\"font-size:10px;color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:10px;font-weight:600;letter-spacing:.04em;\">Temp Monitor</span>\n      </div>\n      <div style=\"position:relative;\">\n        <button @click.stop=\"toggleUserMenu\" style=\"display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;\">\n        <span style=\"display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#3B82F6;border-radius:50%;font-size:11px;font-weight:800;\">{{ (loggedInUser||'U')[0].toUpperCase() }}</span>\n        {{ loggedInUser || 'User' }}\n        <svg :style=\"{transform: userMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition:'transform 0.2s'}\" width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M6 9l6 6 6-6\" stroke=\"rgba(255,255,255,0.6)\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      </button>\n        <div v-if=\"userMenuOpen\" @click.stop\n          style=\"position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid #E2E8F0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.12);z-index:9990;min-width:200px;overflow:hidden;\">\n          <div style=\"padding:12px 16px;border-bottom:1px solid #E2E8F0;background:#F8FAFC;\">\n            <div style=\"font-size:10px;color:#6B7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;\">\n              Signed in as</div>\n            <div style=\"font-size:14px;font-weight:700;color:#0F172A;\">{{ loggedInUser || 'User' }}</div>\n            <div @click.stop=\"openEmailSettings\"\n              style=\"padding:11px 16px;cursor:pointer;font-size:13px;color:#3B82F6;font-weight:600;display:flex;align-items:center;gap:8px;border-bottom:1px solid #E2E8F0;\"\n              onmouseover=\"this.style.background='#EFF6FF'\" onmouseout=\"this.style.background='#fff'\">\n              <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\">\n                <path d=\"M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z\" stroke=\"#3B82F6\"\n                  stroke-width=\"1.7\" />\n                <polyline points=\"22,6 12,13 2,6\" stroke=\"#3B82F6\" stroke-width=\"1.7\" />\n              </svg>\n              Email Settings\n            </div>\n            <div @click.stop=\"switchUser\"\n              style=\"padding:11px 16px;cursor:pointer;font-size:13px;color:#3B82F6;font-weight:600;display:flex;align-items:center;gap:8px;border-bottom:1px solid #E2E8F0;\"\n              onmouseover=\"this.style.background='#EFF6FF'\" onmouseout=\"this.style.background='#fff'\">\n              <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\">\n                <path d=\"M17 4l3 3-3 3M7 20l-3-3 3-3M20 7H9a3 3 0 000 6h2M4 17h11a3 3 0 000-6H9\" stroke=\"#3B82F6\"\n                  stroke-width=\"2\" stroke-linecap=\"round\" />\n              </svg>\n              Switch User\n            </div>\n          </div>\n          <div @click.stop=\"doLogout\"\n            style=\"padding:11px 16px;cursor:pointer;font-size:13px;color:#EF4444;font-weight:600;display:flex;align-items:center;gap:8px;\"\n            onmouseover=\"this.style.background='#FEF2F2'\" onmouseout=\"this.style.background='#fff'\">\n            <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\">\n              <path d=\"M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9\" stroke=\"#EF4444\" stroke-width=\"2\" />\n            </svg>Logout\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Active Slave IDs Input -->\n    <div\n      style=\"display:flex;gap:10px;align-items:center;padding:10px 20px;background:#F1F5F9;border-bottom:1px solid #E2E8F0;flex-wrap:wrap;\">\n      <span style=\"font-size:12px;font-weight:700;color:#3B82F6;white-space:nowrap;\">Active Slave IDs</span>\n      <input v-model=\"idInput\" type=\"text\" placeholder=\"e.g. 1,2,5,10-15,20\"\n      style=\"flex:1;min-width:180px;padding:7px 12px;border:1px solid #CBD5E1;border-radius:7px;font-size:13px;outline:none;color:#0F172A;background:#FFFFFF;\"\n      @keyup.enter=\"applyIds\"\n      onfocus=\"this.style.borderColor='#3B82F6';this.style.boxShadow='0 0 0 2px rgba(59,130,246,0.14)';\"\n      onblur=\"this.style.borderColor='#CBD5E1';this.style.boxShadow='none';\"/>\n      <button @click=\"applyIds\" style=\"padding:7px 18px;background:#3B82F6;color:#fff;border:none;border-radius:7px;cursor:pointer;font-size:13px;font-weight:700;\">Apply</button>\n    </div>\n\n    <!-- Stats Bars -->\n    <div\n      style=\"display:flex;gap:20px;align-items:center;padding:9px 20px;background:#FFFFFF;border-bottom:1px solid #E2E8F0;flex-wrap:wrap;\">\n      <span style=\"font-size:13px;color:#475569;\">Devices: <b style=\"color:#0F172A;\">{{ stats.total }}</b></span>\n      <span style=\"display:inline-flex;align-items:center;gap:5px;font-size:13px;\"><span style=\"width:7px;height:7px;border-radius:50%;background:#22C55E;display:inline-block;\"></span><span style=\"color:#475569;\">Online: <b style=\"color:#0F172A;\">{{ stats.online }}</b></span></span>\n      <span style=\"display:inline-flex;align-items:center;gap:5px;font-size:13px;\"><span style=\"width:7px;height:7px;border-radius:50%;background:#EF4444;display:inline-block;\"></span><span style=\"color:#475569;\">Alert: <b style=\"color:#0F172A;\">{{ stats.alert }}</b></span></span>\n      <span style=\"display:inline-flex;align-items:center;gap:5px;font-size:13px;\"><span style=\"width:7px;height:7px;border-radius:50%;background:#6B7280;display:inline-block;\"></span><span style=\"color:#475569;\">Offline: <b style=\"color:#0F172A;\">{{ stats.offline }}</b></span></span>\n    </div>\n\n    <!-- Table -->\n    <div style=\"padding:16px 20px;flex:1;\">\n      <div\n        style=\"background:#FFFFFF;border-radius:10px;border:1px solid #CBD5E1;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);\">\n        <div style=\"overflow-x:auto;max-height: calc(100vh - 280px); overflow-y: auto;\">\n          <table style=\"width:100%;border-collapse:collapse;font-size:13px;\">\n            <thead style=\"position:sticky;top:0;z-index:10;\">\n              <tr style=\"background:#1E293B;\">\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  ID</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  Destination</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  Temp Value</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  LSP</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  HSP</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid rgba(255,255,255,0.08);\">\n                  Status</th>\n                <th\n                  style=\"padding:11px 16px;text-align:center;font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.08em;\">\n                  Edit</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr v-for=\"(row, i) in tableData\" :key=\"row.ID\"\n                :style=\"{background:row.Status==='OFFLINE'?'#F8FAFC':(row.ID%2===0?'#FFFFFF':'#F8FAFC'),transition:'background 0.35s ease'}\">\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;font-weight:700;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#0F172A'}\">{{ row.ID }}</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#475569'}\">{{ row.Destination||'-' }}</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;font-weight:700;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#0F172A',transition:'color 0.35s ease'}\">{{ row.TempValue }} °C</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#6B7280'}\">{{ row.LSP }}</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;vertical-align:middle;\"\n                  :style=\"{color:row.Status==='OFFLINE'?'#CBD5E1':'#6B7280'}\">{{ row.HSP }}</td>\n                <td\n                  style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;border-right:1px solid #E2E8F0;text-align:center;\">\n                  <span :style=\"{display:'inline-flex',alignItems:'center',gap:'5px',padding:'3px 10px',borderRadius:'20px',fontSize:'11px',fontWeight:'700',transition:'background 0.35s ease,color 0.35s ease,border-color 0.35s ease',background:row.Status==='OFFLINE'?'#F1F5F9':(row.Alarm==='ALERT'?'#FEF2F2':'#F0FDF4'),color:row.Status==='OFFLINE'?'#6B7280':(row.Alarm==='ALERT'?'#EF4444':'#22C55E'),border:row.Status!=='OFFLINE'?(row.Alarm==='ALERT'?'1px solid #FECACA':'1px solid #BBF7D0'):'none'}\"><span :style=\"{width:'6px',height:'6px',borderRadius:'50%',display:'inline-block',transition:'background 0.35s ease',background:row.Status==='OFFLINE'?'#6B7280':(row.Alarm==='ALERT'?'#EF4444':'#22C55E')}\"></span>{{ row.Status==='OFFLINE'?'OFFLINE':(row.Alarm==='ALERT'?'ALERT':'NORMAL') }}</span>\n                </td>\n                <td style=\"padding:10px 16px;border-bottom:1px solid #E2E8F0;text-align:center;\">\n                  <button @click=\"row.Status!=='OFFLINE'&&handleEditClick(row)\" :disabled=\"row.Status==='OFFLINE'\"\n                  :style=\"{background:row.Status==='OFFLINE'?'#F1F5F9':'#EFF6FF',border:'1px solid '+(row.Status==='OFFLINE'?'#E2E8F0':'#BFDBFE'),color:row.Status==='OFFLINE'?'#CBD5E1':'#3B82F6',cursor:row.Status==='OFFLINE'?'not-allowed':'pointer'}\"\n                  style=\"border-radius:6px;padding:4px 12px;font-size:12px;font-weight:600;\">Edit</button>\n                </td>\n              </tr>\n              <tr v-if=\"tableData.length===0\">\n                <td colspan=\"8\" style=\"padding:32px;text-align:center;color:#6B7280;font-size:13px;\">No devices\n                  available. Use \"Active Slave IDs\" input above to add devices.</td>\n              </tr>\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n\n    <!-- Edit Modal -->\n    <div v-if=\"modalOpen\"\n      style=\"position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;\"\n      @click.self=\"closeModal\">\n      <div\n        style=\"background:#FFFFFF;border-radius:14px;padding:28px 30px;width:92%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid #E2E8F0;\">\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;\">\n          <div>\n            <div style=\"font-size:15px;font-weight:700;color:#0F172A;\">Edit Device Settings</div>\n            <div style=\"font-size:12px;color:#6B7280;margin-top:2px;\">Slave ID:\n              <b style=\"color:#3B82F6;\">{{ editData.ID }}</b></div>\n          </div>\n          <button @click=\"closeModal\" style=\"background:#F1F5F9;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;color:#475569;\">X</button>\n        </div>\n        <div style=\"display:flex;flex-direction:column;gap:15px;\">\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Destination</label>\n            <input v-model=\"editData.Destination\" type=\"text\" placeholder=\"e.g. Cold Room A\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;background:#FFFFFF;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n          </div>\n          <div style=\"display:flex;gap:12px;\">\n            <div style=\"flex:1;\">\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">LSP</label><input v-model.number=\"editData.LSP\" type=\"number\" placeholder=\"0\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n            <div style=\"flex:1;\">\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">HSP</label><input v-model.number=\"editData.HSP\" type=\"number\" placeholder=\"0\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n          </div>\n          <p v-if=\"editData.LSP>=editData.HSP\"\n            style=\"margin:0;color:#EF4444;font-size:12px;background:#FEF2F2;padding:8px 11px;border-radius:7px;border-left:3px solid #EF4444;\">\n            LSP must be less than HSP</p>\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;\">Notify Email</label>\n            <input type=\"email\" v-model=\"editData.notifyEmail\" placeholder=\"Enter email address\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;background:#FFFFFF;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\" />\n          </div>\n        </div>\n        <div\n          style=\"display:flex;justify-content:flex-end;gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid #E2E8F0;\">\n          <button @click=\"closeModal\" style=\"padding:9px 20px;border:1px solid #E2E8F0;background:#FFFFFF;border-radius:8px;cursor:pointer;font-size:13px;color:#475569;font-weight:600;\">Cancel</button>\n          <button @click=\"saveSettings\" :disabled=\"editData.LSP>=editData.HSP\" :style=\"{opacity:editData.LSP>=editData.HSP?'0.4':'1'}\" style=\"padding:9px 20px;border:none;background:#3B82F6;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;\">Save</button>\n        </div>\n      </div>\n    </div>\n\n    <!-- Auth Modal -->\n    <div v-if=\"authModalOpen\"\n      style=\"position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.5);z-index:9998;display:flex;align-items:center;justify-content:center;\"\n      @click.self=\"closeAuthModal\">\n      <div\n        style=\"background:#FFFFFF;border-radius:14px;padding:30px 32px;width:92%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid #E2E8F0;\">\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;\">\n          <div>\n            <div style=\"font-size:16px;font-weight:700;color:#0F172A;\">Admin Access Required</div>\n            <div style=\"font-size:12px;color:#6B7280;margin-top:3px;\">{{ authPurpose }}</div>\n          </div>\n          <button @click=\"closeAuthModal\" style=\"background:#F1F5F9;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;color:#475569;\">X</button>\n        </div>\n        <div v-if=\"authLocked\"\n          style=\"background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:11px 14px;margin-bottom:16px;font-size:13px;color:#EA580C;\">\n          Too many attempts. Try again in <b>{{ lockCountdown }}s</b>.</div>\n        <div v-else style=\"display:flex;flex-direction:column;gap:14px;\">\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">User ID</label><input v-model=\"authUserId\" type=\"text\" placeholder=\"Enter user ID\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\" @keyup.enter=\"submitAuth\"/>\n          </div>\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Password</label>\n            <div style=\"position:relative;\">\n              <input v-model=\"authPassword\" :type=\"showPass?'text':'password'\" placeholder=\"Enter password\" style=\"width:100%;box-sizing:border-box;padding:10px 38px 10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\" @keyup.enter=\"submitAuth\"/><span @click=\"showPass=!showPass\" style=\"position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14px;color:#6B7280;\">{{ showPass?'Hide':'Show' }}</span>\n            </div>\n          </div>\n          <div v-if=\"authError\"\n            style=\"background:#FEF2F2;border:1px solid #FECACA;border-radius:7px;padding:9px 12px;font-size:12px;color:#EF4444;\">\n            {{ authError }}</div>\n        </div>\n        <div\n          style=\"display:flex;justify-content:flex-end;gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid #E2E8F0;\">\n          <button @click=\"closeAuthModal\" style=\"padding:9px 20px;border:1px solid #E2E8F0;background:#FFFFFF;border-radius:8px;cursor:pointer;font-size:13px;color:#475569;font-weight:600;\">Cancel</button>\n          <button @click=\"submitAuth\" :disabled=\"authLocked||!authUserId||!authPassword\" :style=\"{opacity:(authLocked||!authUserId||!authPassword)?'0.4':'1'}\" style=\"padding:9px 22px;border:none;background:#3B82F6;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;\">Unlock</button>\n        </div>\n      </div>\n    </div>\n\n    <!-- Email Settings Modal -->\n    <div v-if=\"emailModalOpen\"\n      style=\"position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;\"\n      @click.self=\"emailModalOpen=false\">\n      <div\n        style=\"background:#FFFFFF;border-radius:14px;padding:28px 30px;width:92%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid #E2E8F0;\">\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;\">\n          <div>\n            <div style=\"font-size:15px;font-weight:700;color:#0F172A;\">Email Settings</div>\n            <div style=\"font-size:12px;color:#6B7280;margin-top:2px;\">Configure sender address</div>\n          </div>\n          <button @click=\"emailModalOpen=false\" style=\"background:#F1F5F9;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;color:#475569;\">&#x2715;</button>\n        </div>\n        <div style=\"display:flex;flex-direction:column;gap:14px;\">\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">From Email</label>\n            <input v-model=\"emailCfg.fromEmail\" type=\"email\" placeholder=\"alerts@company.com\" style=\"width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n          </div>\n          <div>\n            <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Password</label>\n            <div style=\"position:relative;\">\n              <input v-model=\"emailPassword\" :type=\"showEmailPass?'text':'password'\" placeholder=\"Enter password\" style=\"width:100%;box-sizing:border-box;padding:10px 52px 10px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n              <span @click=\"showEmailPass=!showEmailPass\" style=\"position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:12px;color:#6B7280;font-weight:600;\">{{ showEmailPass?'Hide':'Show' }}</span>\n            </div>\n          </div>\n          <p v-if=\"emailSettingsError\" style=\"margin:0;color:#EF4444;font-size:12px;background:#FEF2F2;padding:8px 11px;border-radius:7px;border-left:3px solid #EF4444;\">{{ emailSettingsError }}</p>\n          <p v-if=\"changePasswordSuccess\" style=\"margin:0;color:#16A34A;font-size:12px;background:#F0FDF4;padding:8px 11px;border-radius:7px;border-left:3px solid #16A34A;\">{{ changePasswordSuccess }}</p>\n                    <div v-if=\"emailConfigured\" style=\"margin:0;padding:10px 14px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:8px;display:flex;align-items:center;gap:8px;\">\n            <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"10\" fill=\"#22C55E\"/><path d=\"M7 12.5l3.5 3.5 6-7\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n            <span style=\"font-size:12px;font-weight:600;color:#16A34A;\">Email configuration is set</span>\n          </div>\n          <!-- Change Password section -->\n          <div v-if=\"changePasswordOpen\" style=\"display:flex;flex-direction:column;gap:12px;padding:14px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0;\">\n            <div style=\"font-size:12px;font-weight:700;color:#475569;margin-bottom:2px;\">Change Password</div>\n            <div>\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Old Password</label>\n              <input v-model=\"emailOldPassword\" type=\"password\" placeholder=\"Current password\" style=\"width:100%;box-sizing:border-box;padding:9px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n            <div>\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">New Password</label>\n              <input v-model=\"emailNewPassword\" type=\"password\" placeholder=\"New password\" style=\"width:100%;box-sizing:border-box;padding:9px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n            <div>\n              <label style=\"display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.06em;\">Confirm New Password</label>\n              <input v-model=\"emailConfirmNewPassword\" type=\"password\" placeholder=\"Confirm new password\" style=\"width:100%;box-sizing:border-box;padding:9px 13px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;outline:none;color:#0F172A;\" onfocus=\"this.style.borderColor='#3B82F6';\" onblur=\"this.style.borderColor='#E2E8F0';\"/>\n            </div>\n            <p v-if=\"emailNewPassword && emailNewPassword!==emailConfirmNewPassword\" style=\"margin:0;color:#EF4444;font-size:12px;background:#FEF2F2;padding:7px 10px;border-radius:7px;border-left:3px solid #EF4444;\">Passwords do not match.</p>\n            <p v-if=\"changePasswordError\" style=\"margin:0;color:#EF4444;font-size:12px;background:#FEF2F2;padding:7px 10px;border-radius:7px;border-left:3px solid #EF4444;\">{{ changePasswordError }}</p>\n          </div>\n        </div>\n        <div style=\"display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding-top:16px;border-top:1px solid #E2E8F0;\">\n          <span @click=\"changePasswordOpen=!changePasswordOpen;changePasswordError='';changePasswordSuccess=''\" style=\"font-size:12px;color:#3B82F6;cursor:pointer;font-weight:600;text-decoration:underline;\">{{ changePasswordOpen ? 'Cancel' : 'Change Password' }}</span>\n          <div style=\"display:flex;gap:10px;\">\n            <button v-if=\"changePasswordOpen\" @click=\"changeEmailPassword\" :disabled=\"!emailOldPassword||!emailNewPassword||emailNewPassword!==emailConfirmNewPassword\" :style=\"{opacity:(!emailOldPassword||!emailNewPassword||emailNewPassword!==emailConfirmNewPassword)?'0.4':'1'}\" style=\"padding:9px 18px;border:none;background:#0F172A;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;\">Update</button>\n            <button v-if=\"!changePasswordOpen\" @click=\"emailModalOpen=false\" style=\"padding:9px 20px;border:1px solid #E2E8F0;background:#FFFFFF;border-radius:8px;cursor:pointer;font-size:13px;color:#475569;font-weight:600;\">Cancel</button>\n            <button v-if=\"!changePasswordOpen\" @click=\"saveEmailConfig\" :disabled=\"!emailCfg.fromEmail||!emailPassword\" :style=\"{opacity:(!emailCfg.fromEmail||!emailPassword)?'0.4':'1'}\" style=\"padding:9px 20px;border:none;background:#3B82F6;color:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;\">Save</button>\n          </div>\n        </div>\n      </div>\n    </div>\n    <transition name=\"noperm-fade\">\n      <div v-if=\"noPermVisible\"\n        style=\"position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:99999;background:#F0E9C8;color:#937D4A;padding:14px 28px;border-radius:12px;font-size:14px;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,0.35);display:flex;align-items:center;gap:10px;white-space:nowrap;pointer-events:none;\">\n        <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\">\n          <circle cx=\"12\" cy=\"12\" r=\"9\" stroke=\"#EF4444\" stroke-width=\"1.8\" />\n          <path d=\"M12 8v4M12 16h.01\" stroke=\"#EF4444\" stroke-width=\"1.8\" stroke-linecap=\"round\" />\n        </svg>\n        <span>You don't have permission to perform this action.</span>\n      </div>\n    </transition>\n    <style>\n      .noperm-fade-enter-active,\n      .noperm-fade-leave-active {\n        transition: opacity .25s ease, transform .25s ease;\n      }\n\n      .noperm-fade-enter-from,\n      .noperm-fade-leave-to {\n        opacity: 0;\n        transform: translateX(-50%) translateY(-8px);\n      }\n    </style>\n  </div>\n</template>\n\n<script>\n  export default {\n  data() {\n    return {\n      tableData: [], \n      idInput: '', \n      loggedInUser: '', \n      userMenuOpen: false, \n      userRole: 'viewer', \n      noPermVisible: false,\n      modalOpen: false, \n      editData: { ID: null, Destination: '', LSP: 0, HSP: 0, notifyEmail: '' },\n      authModalOpen: false, \n      authPurpose: '', \n      authUserId: '', \n      authPassword: '', \n      authError: '', \n      authLocked: false, \n      lockCountdown: 0, \n      showPass: false, \n      pendingRow: null,\n      _authCallback: null, \n      _lockTimer: null,\n      emailModalOpen: false, \n      showEmailPass: false,\n            emailConfigured: false,\n      emailPassword: '',\n      emailSettingsError: '',\n      changePasswordOpen: false,\n      emailOldPassword: '',\n      emailNewPassword: '',\n      emailConfirmNewPassword: '',\n      changePasswordError: '',\n      changePasswordSuccess: '',\n      emailCfg: { fromEmail: '' },\n      _updateTimer: null,\n      _keepAliveInterval: null,\n      slaveInput: localStorage.getItem('jp_slave_ids') || '',\n    };\n  },\ncomputed: {\n  stats() {\n    return {\n      total: this.tableData.length,\n      online: this.tableData.filter(r => r.Status === 'ONLINE' && r.Alarm !== 'ALERT').length,\n      alert: this.tableData.filter(r => r.Status === 'ONLINE' && r.Alarm === 'ALERT').length,\n      offline: this.tableData.filter(r => r.Status === 'OFFLINE').length\n    };\n  }\n},\n  mounted() {\n    const tok = localStorage.getItem('jp_session_token') || '';\n    this.send({ payload: { action: 'session-check', sessionToken: tok } });\n    this.send({ payload: { action: 'get-slave-ids' } });\n    this.userRole = localStorage.getItem('jp_role') || 'viewer';\n    this.loadEmailConfig();\n    this._keepAliveInterval = setInterval(() => {\n      const token = localStorage.getItem('jp_session_token') || '';\n      if (token) this.send({ payload: { action: 'session-keepalive', sessionToken: token } });\n    }, 30000);\n  },\n  beforeUnmount() {\n    if (this._keepAliveInterval) clearInterval(this._keepAliveInterval);\n    if (this._lockTimer) clearInterval(this._lockTimer);\n    if (this._updateTimer) clearTimeout(this._updateTimer);\n  },\n  methods: {\n    handleGlobalClick() { \n      this.userMenuOpen = false; \n    },\n    toggleUserMenu(e) { \n      e.stopPropagation(); \n      this.userMenuOpen = !this.userMenuOpen; \n    },\n    doLogout() { \n      this.userMenuOpen = false; \n      const tok = localStorage.getItem('jp_session_token') || ''; \n      localStorage.removeItem('jp_session_token'); \n      localStorage.removeItem('jp_auth'); \n      localStorage.removeItem('jp_role'); \n      this.send({ payload: { action: 'do-logout', sessionToken: tok } }); \n    },\n    switchUser() { \n      this.userMenuOpen = false; \n      const tok = localStorage.getItem('jp_session_token') || ''; \n      localStorage.removeItem('jp_session_token'); \n      localStorage.removeItem('jp_auth'); \n      localStorage.removeItem('jp_user'); \n      localStorage.removeItem('jp_role'); \n      this.send({ payload: { action: 'do-logout', sessionToken: tok } }); \n    },\n    applyIds() { \n      if (!this.idInput.trim()) return; \n      this.send({ payload: { action: 'set-active-ids', raw: this.idInput } }); \n    },\n    handleEditClick(row) { \n      if (this.userRole !== 'admin') { \n        this.showNoPermission(); \n        return; \n      } \n      this.openModal(row); \n    },\n    showNoPermission() { \n      this.noPermVisible = true; \n      setTimeout(() => { \n        this.noPermVisible = false; \n      }, 3000); \n    },\n    openModal(row) {\n      this.editData = {\n        ID: row.ID,\n        Destination: row.Destination || '',\n        LSP: row.LSP != null ? row.LSP : 0,\n        HSP: row.HSP != null ? row.HSP : 0,\n        notifyEmail: row.notifyEmail || ''\n      };\n      this.modalOpen = true;\n    },\n    closeModal() { \n      this.modalOpen = false; \n    },\n    saveSettings() {\n      if (this.editData.LSP >= this.editData.HSP) return;\n      this.send({\n        payload: {\n          action: 'device-settings-save',\n          id: this.editData.ID,\n          destination: this.editData.Destination,\n          lsp: this.editData.LSP,\n          hsp: this.editData.HSP,\n          notifyEmail: this.editData.notifyEmail\n        }\n      });\n      this.modalOpen = false;\n    },\n\n    openEmailSettings() { \n      this.userMenuOpen = false; \n      this.emailModalOpen = true; \n      this.loadEmailConfig(); \n    },\n    changeEmailPassword() {\n      if (!this.emailOldPassword || !this.emailNewPassword || this.emailNewPassword !== this.emailConfirmNewPassword) return;\n      this.changePasswordError = '';\n      this.changePasswordSuccess = '';\n      this.send({ payload: { action: 'change-email-password', oldPassword: this.emailOldPassword, newPassword: this.emailNewPassword } });\n    },\n    loadEmailConfig() {\n      this.emailPassword = '';\n      this.emailSettingsError = '';\n      this.changePasswordOpen = false;\n      this.changePasswordError = '';\n      this.changePasswordSuccess = '';\n      this.send({ payload: { action: 'load-email-config' } });\n    },\n    saveEmailConfig() {\n      if (!this.emailCfg.fromEmail || !this.emailPassword) return;\n      this.emailSettingsError = '';\n      this.send({ payload: { action: 'save-email-config', config: { fromEmail: this.emailCfg.fromEmail }, password: this.emailPassword } });\n    },\n    testEmail() { \n      this.send({ payload: { action: 'test-email', config: { ...this.emailCfg } } }); \n    },\n    closeAuthModal() { \n      this.authModalOpen = false; \n      this.pendingRow = null; \n      this._authCallback = null; \n      if (this._lockTimer) clearInterval(this._lockTimer); \n    },\n    submitAuth() { \n      if (this.authLocked || !this.authUserId || !this.authPassword) return; \n      this.send({ payload: { action: 'auth-check', userId: this.authUserId, password: this.authPassword } }); \n    },\n    handleAuthResult(r) {\n      if (r.success) { \n        this.authModalOpen = false; \n        if (this._authCallback === 'edit' && this.pendingRow) { \n          this.openModal(this.pendingRow); \n          this.pendingRow = null; \n        } \n        this._authCallback = null; \n      } else if (r.locked) { \n        this.authLocked = true; \n        this.lockCountdown = r.secsLeft; \n        this.authError = ''; \n        if (this._lockTimer) clearInterval(this._lockTimer);\n        this._lockTimer = setInterval(() => { \n          this.lockCountdown--; \n          if (this.lockCountdown <= 0) { \n            this.authLocked = false; \n            if (this._lockTimer) clearInterval(this._lockTimer); \n          } \n        }, 1000); \n      } else { \n        this.authError = 'Invalid credentials. ' + (r.attemptsLeft || 0) + ' attempt(s) remaining.'; \n        this.authPassword = ''; \n      }\n    },\n    _smartUpdateTable(incoming) {\n      if (!Array.isArray(incoming) || incoming.length === 0) return;\n      \n      const existingMap = new Map(this.tableData.map(r => [r.ID, r]));\n      const incomingIds = new Set(incoming.map(r => r.ID));\n      let hasChanges = false;\n      \n      // Update or add rows\n      for (const newRow of incoming) {\n        const old = existingMap.get(newRow.ID);\n        if (!old) {\n          this.tableData.push(newRow);\n          hasChanges = true;\n        } else {\n          // Check for actual changes\n          let changed = false;\n          for (const key of Object.keys(newRow)) {\n            if (old[key] !== newRow[key]) {\n              changed = true;\n              break;\n            }\n          }\n          if (changed) {\n            Object.assign(old, newRow);\n            hasChanges = true;\n          }\n        }\n      }\n      \n      // Remove rows no longer in incoming\n      const toRemove = [];\n      for (let i = 0; i < this.tableData.length; i++) {\n        if (!incomingIds.has(this.tableData[i].ID)) {\n          toRemove.push(i);\n        }\n      }\n      for (let i = toRemove.length - 1; i >= 0; i--) {\n        this.tableData.splice(toRemove[i], 1);\n        hasChanges = true;\n      }\n      \n    }\n  },\n  watch: {\n    msg(m) {\n      if (!m || !m.payload) return;\n      const p = m.payload;\n      if (p.action === 'session-result') {\n        if (!p.authenticated) { \n          localStorage.removeItem('jp_session_token'); \n          localStorage.removeItem('jp_auth'); \n          window.location.href = '/dashboard/login'; \n          return; \n        }\n        if (p.userId) { \n          this.loggedInUser = p.userId; \n          this.userRole = p.role || 'viewer'; \n          localStorage.setItem('jp_user', p.userId); \n          localStorage.setItem('jp_auth', '1'); \n          localStorage.setItem('jp_role', p.role || 'viewer'); \n        }\n        return;\n      }\n      if (p.action === 'auth-result') { \n        this.handleAuthResult(p); \n        return; \n      }\n      if (p.action === 'email-config-result') {\n        if (p.error) {\n          this.emailSettingsError = p.error;\n        } else {\n          this.emailCfg = { ...this.emailCfg, ...(p.config || {}) };\n          this.emailSettingsError = '';\n          if (p.hasPassword !== undefined) {\n            this.emailConfigured = !!(this.emailCfg.fromEmail) && p.hasPassword;\n          }\n          if (!p.loadOnly) {\n            this.emailModalOpen = false;\n            this.emailPassword = '';\n          }\n        }\n        return;\n      }\n      if (p.action === 'change-password-result') {\n        if (p.success) {\n          this.changePasswordSuccess = 'Password updated successfully.';\n          this.changePasswordError = '';\n          this.emailOldPassword = '';\n          this.emailNewPassword = '';\n          this.emailConfirmNewPassword = '';\n          this.changePasswordOpen = false;\n        } else {\n          this.changePasswordError = p.error || 'Incorrect old password.';\n        }\n        return;\n      }\n      if (p.action === 'device-settings-row-update' && p.row) {\n        const idx = this.tableData.findIndex(r => r.ID === p.row.ID);\n        if (idx >= 0) { \n          this.tableData.splice(idx, 1, p.row); \n          this._statsDirty = true; \n        }\n        return;\n      }\n      if (Array.isArray(p) && p.length > 0) {\n        // Debounce: wait 16ms before updating\n        if (this._updateTimer) clearTimeout(this._updateTimer);\n        this._updateTimer = setTimeout(() => {\n          this._smartUpdateTable(p);\n        }, 200);\n      }\n    }\n  }\n};\n</script>",
         "storeOutMessages": true,
         "passthru": true,
         "resendOnRefresh": true,
@@ -1218,15 +1218,15 @@
         "y": 300,
         "wires": [
             [
-                "f12cc8c4d8f57e6e",
-                "124fd3d367423e10"
+                "125616818bf19cea",
+                "08a28f37e3c3f040"
             ]
         ]
     },
     {
-        "id": "17c77de7b09c7fb2",
+        "id": "f2aedcd1e3a1810c",
         "type": "ui-template",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "group": "a471d4923c697568",
         "page": "",
         "ui": "",
@@ -1245,14 +1245,14 @@
         "y": 440,
         "wires": [
             [
-                "f12cc8c4d8f57e6e"
+                "125616818bf19cea"
             ]
         ]
     },
     {
-        "id": "ba391929c0726636",
+        "id": "acffdc801af11798",
         "type": "ui-template",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "group": "",
         "page": "",
         "ui": "98488f60b3c1e6bb",
@@ -1271,16 +1271,16 @@
         "y": 320,
         "wires": [
             [
-                "74746a28f4e9b6ce",
-                "aa0f216b002b1015",
-                "17c77de7b09c7fb2"
+                "72b07e8ddc9a7095",
+                "cc342285c9f0d58f",
+                "f2aedcd1e3a1810c"
             ]
         ]
     },
     {
-        "id": "f00f5f883b5db3ae",
+        "id": "330259b01a728f90",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Alert State Broadcaster",
         "func": "const tableData = flow.get('tableData', 'file') || {};\nconst rows = Object.values(tableData);\n\nconst now = Date.now();\nconst activeAlerts = rows\n    .filter(r => r && r.Status === 'ONLINE' && r.Alarm === 'ALERT')\n    .map(r => ({\n        slaveId: r.ID,\n        destination: r.Destination || '',\n        alarmValue: r.TempValue != null ? r.TempValue : '—',\n        lsp: r.LSP,\n        hsp: r.HSP,\n        alarmType: (r.TempValue !== undefined && r.TempValue !== null && r.LSP !== undefined)\n            ? (parseFloat(r.TempValue) < r.LSP ? 'LOW' : 'HIGH')\n            : 'HIGH',\n        notifyEmail: r.notifyEmail || '',\n        alarmTime: now,\n        alarmTimeStr: (() => {\n            const d = new Date(now);\n            const pad = n => String(n).padStart(2, '0');\n            return `${pad(d.getDate())}-${pad(d.getMonth() + 1)}-${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;\n        })()\n    }));\n\nconst prevAlerts = flow.get('activeAlerts') || [];\nflow.set('activeAlerts', activeAlerts);\n\nconst prevIds = new Set(prevAlerts.map(a => a.slaveId));\nconst newAlerts = activeAlerts.filter(a => !prevIds.has(a.slaveId));\n\nif (newAlerts.length > 0) {\n    const pendingEmails = flow.get('pendingEmailAlerts') || [];\n    newAlerts.forEach(a => pendingEmails.push(a));\n    flow.set('pendingEmailAlerts', pendingEmails);\n}\n\nreturn {\n    payload: {\n        action: 'alert-update',\n        alerts: activeAlerts,\n        newAlerts: newAlerts,\n        totalCount: activeAlerts.length\n    },\n    _newAlerts: newAlerts\n};",
         "outputs": 1,
@@ -1293,14 +1293,14 @@
         "y": 920,
         "wires": [
             [
-                "945bdf8098f20ae0"
+                "f374fbfebb870d31"
             ]
         ]
     },
     {
-        "id": "74909c3832f46534",
+        "id": "a064d65f04c3ac8f",
         "type": "e-mail",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "server": "smtp.gmail.com",
         "port": "587",
         "authtype": "BASIC",
@@ -1315,9 +1315,9 @@
         "wires": []
     },
     {
-        "id": "ff237f740242000c",
+        "id": "a2ed8f24392932f2",
         "type": "inject",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "",
         "props": [
             {
@@ -1339,14 +1339,14 @@
         "y": 40,
         "wires": [
             [
-                "791ff438b6e77041"
+                "1df4f60c2fc59db0"
             ]
         ]
     },
     {
-        "id": "791ff438b6e77041",
+        "id": "1df4f60c2fc59db0",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "function 3",
         "func": "// SQL Keepalive Query Builder\nmsg.topic = \"SELECT 1 as connection_test, GETDATE() as [current_time]\";\nmsg.payload = {};\nreturn msg;",
         "outputs": 1,
@@ -1359,16 +1359,16 @@
         "y": 40,
         "wires": [
             [
-                "3b5332d74685425d"
+                "d9a9fcd31b1dbc05"
             ]
         ]
     },
     {
-        "id": "045bedccf6e9c6bf",
+        "id": "0e559b4700ad7bdf",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Email Config Store",
-        "func": "// Handles save/load of email configuration\nif (!msg.payload || !msg.payload.action) return null;\n\nif (msg.payload.action === 'save-email-config') {\n    const incomingPwd = msg.payload.password || '';\n    const _fs2 = require('fs');\n    let dc; try { dc = JSON.parse(_fs2.readFileSync('C:/SPB_Data/.node-red/device_config.json', 'utf8')); } catch(e) { dc = {}; }\n    const storedPwd = dc.emailSettingsPassword || '';\n    if (storedPwd && incomingPwd !== storedPwd) {\n        msg.payload = { action: 'email-config-result', error: 'Incorrect password.' };\n        return msg;\n    }\n    const cfg = { fromEmail: (msg.payload.config || {}).fromEmail || '' };\n    flow.set('emailConfig', cfg, 'file');\n    dc.emailSettingsPassword = incomingPwd;\n    try { _fs2.writeFileSync('C:/SPB_Data/.node-red/device_config.json', JSON.stringify(dc, null, 2), 'utf8'); } catch(e) { node.warn('cfg write error: ' + e.message); }\n    msg.payload = { action: 'email-config-result', config: cfg };\n    return msg;\n}\n\nif (msg.payload.action === 'load-email-config') {\n    const cfg = flow.get('emailConfig', 'file') || { fromEmail: '' };\n    msg.payload = { action: 'email-config-result', config: { fromEmail: cfg.fromEmail || '' } };\n    return msg;\n}\n\nreturn null;",
+        "func": "// Handles save/load of email configuration\nif (!msg.payload || !msg.payload.action) return null;\n\nif (msg.payload.action === 'save-email-config') {\n    const incomingPwd = msg.payload.password || '';\n    const _fs2 = require('fs');\n    let dc; try { dc = JSON.parse(_fs2.readFileSync(global.get('CONFIG_PATH'), 'utf8')); } catch(e) { dc = {}; }\n    const storedPwd = dc.emailSettingsPassword || '';\n    if (storedPwd && incomingPwd !== storedPwd) {\n        msg.payload = { action: 'email-config-result', error: 'Incorrect password.' };\n        return msg;\n    }\n    const cfg = { fromEmail: (msg.payload.config || {}).fromEmail || '' };\n    flow.set('emailConfig', cfg, 'file');\n    dc.emailSettingsPassword = incomingPwd;\n    try { _fs2.writeFileSync(global.get('CONFIG_PATH'), JSON.stringify(dc, null, 2), 'utf8'); } catch(e) { node.warn('cfg write error: ' + e.message); }\n    msg.payload = { action: 'email-config-result', config: cfg };\n    return msg;\n}\n\nif (msg.payload.action === 'load-email-config') {\n    const cfg = flow.get('emailConfig', 'file') || { fromEmail: '' };\n    let _dc2; try { _dc2 = JSON.parse(_fs2.readFileSync(global.get('CONFIG_PATH'), 'utf8')); } catch(e) { _dc2 = {}; }\n    const hasPassword2 = !!(_dc2.emailSettingsPassword);\n    msg.payload = { action: 'email-config-result', config: { fromEmail: cfg.fromEmail || '' }, hasPassword: hasPassword2 };\n    return msg;\n}\n\nreturn null;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -1382,9 +1382,9 @@
         ]
     },
     {
-        "id": "945bdf8098f20ae0",
+        "id": "f374fbfebb870d31",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Email Dispatcher",
         "func": "// Email Dispatcher — per-device notifyEmail, HIGH+LOW alerts, 3-min cooldown per device\nconst newAlerts = msg._newAlerts || [];\nif (newAlerts.length === 0) return null;\n\nconst emailCfg = flow.get('emailConfig', 'file') || {};\nconst fromEmail = emailCfg.fromEmail || '';\n\nconst COOLDOWN_MS = 3 * 60 * 1000;\nconst now = Date.now();\nconst outMessages = [];\n\nfor (const alert of newAlerts) {\n    const toEmail = alert.notifyEmail || '';\n    if (!toEmail) continue;\n\n    const cooldownKey = 'emailCooldown_' + alert.slaveId;\n    const lastSent = flow.get(cooldownKey) || 0;\n    if ((now - lastSent) < COOLDOWN_MS) continue;\n\n    const alarmLabel = alert.alarmType === 'LOW'\n        ? 'LOW ALERT — Temperature below Low Set Point'\n        : 'HIGH ALERT — Temperature above High Set Point';\n\n    const subject = `[ALERT] Slave ${alert.slaveId}${alert.destination ? ' — ' + alert.destination : ''} | Jetpace EMS`;\n    const body =\n        `TEMPERATURE ALERT — Jetpace EMS\\n\\n` +\n        `Device     : Slave ID ${alert.slaveId}${alert.destination ? ' (' + alert.destination + ')' : ''}\\n` +\n        `Alert Type : ${alarmLabel}\\n` +\n        `Temperature: ${alert.alarmValue} °C\\n` +\n        `LSP        : ${alert.lsp} °C\\n` +\n        `HSP        : ${alert.hsp} °C\\n` +\n        `Time       : ${alert.alarmTimeStr}\\n\\n` +\n        `Please take immediate action.\\n\\n` +\n        `— Jetpace EMS`;\n\n    const emailMsg = { topic: subject, payload: body, to: toEmail };\n    if (fromEmail) emailMsg.from = fromEmail;\n    outMessages.push(emailMsg);\n    flow.set(cooldownKey, now);\n}\n\nif (outMessages.length === 0) return null;\nreturn [outMessages];",
         "outputs": 1,
@@ -1397,14 +1397,14 @@
         "y": 920,
         "wires": [
             [
-                "74909c3832f46534"
+                "a064d65f04c3ac8f"
             ]
         ]
     },
     {
-        "id": "124fd3d367423e10",
+        "id": "08a28f37e3c3f040",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Save Active Slave IDs",
         "func": "// Triggered when UI sends action: 'save-slave-ids'\nif (!msg.payload || msg.payload.action !== 'save-slave-ids') return null;\n\nconst ids = msg.payload.slaveIds || [];\nflow.set('persistedSlaveIds', ids, 'file');\n\nmsg.payload = {\n    action: 'slave-ids-restored',\n    slaveIds: ids\n};\nreturn msg;",
         "outputs": 1,
@@ -1417,14 +1417,14 @@
         "y": 140,
         "wires": [
             [
-                "aa0f216b002b1015"
+                "cc342285c9f0d58f"
             ]
         ]
     },
     {
-        "id": "98a0ffd4b6167ff3",
+        "id": "486a0afe0ff6057a",
         "type": "inject",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "",
         "props": [
             {
@@ -1442,16 +1442,16 @@
         "y": 360,
         "wires": [
             [
-                "9d107ea2202ff62a"
+                "cec116032e98ef8f"
             ]
         ]
     },
     {
-        "id": "9d107ea2202ff62a",
+        "id": "cec116032e98ef8f",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Restore Slave IDs on Boot",
-        "func": "const _cfgPath = 'C:/SPB_Data/.node-red/device_config.json';\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nflow.set('rrIndex', 0);\nflow.set('bgScanQueue', []);\nconst cfg = _readCfg();\nnode.warn('Boot: slaveIds=' + (cfg.slaveIds||[]).join(',') + ' activeIds=' + (cfg.activeSlaveIds||[]).join(','));\nreturn null;",
+        "func": "const _cfgPath = global.get('CONFIG_PATH');\nfunction _readCfg() {\n  try { return JSON.parse(_fs.readFileSync(_cfgPath, 'utf8')); }\n  catch(e) { return { slaveIds: [], activeSlaveIds: [], deviceSettings: {} }; }\n}\nfunction _saveCfg(c) {\n  try { _fs.writeFileSync(_cfgPath, JSON.stringify(c, null, 2), 'utf8'); }\n  catch(e) { node.warn('cfg write error: ' + e.message); }\n}\nflow.set('rrIndex', 0);\nflow.set('bgScanQueue', []);\nconst cfg = _readCfg();\nnode.warn('Boot: slaveIds=' + (cfg.slaveIds||[]).join(',') + ' activeIds=' + (cfg.activeSlaveIds||[]).join(','));\nreturn null;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1471,14 +1471,14 @@
         "y": 420,
         "wires": [
             [
-                "aa0f216b002b1015"
+                "cc342285c9f0d58f"
             ]
         ]
     },
     {
-        "id": "4e59965417f1ba44",
+        "id": "bc5ee36acca1c0de",
         "type": "inject",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "System Start Event",
         "props": [
             {
@@ -1496,14 +1496,14 @@
         "y": 880,
         "wires": [
             [
-                "c5e822dd781b2741"
+                "c057d763d4988eb2"
             ]
         ]
     },
     {
-        "id": "c5e822dd781b2741",
+        "id": "c057d763d4988eb2",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Event Insert",
         "func": "// Startup trigger: payload = {}\nif (msg.payload && typeof msg.payload === 'object' && Object.keys(msg.payload).length === 0) {\n    msg.payload = { event_type: 'system-start', event_desc: 'Jetpace EMS started', user_id: 'System' };\n}\nif (!msg.payload || !msg.payload.event_type) return null;\nconst now = new Date();\nconst pad = n => String(n).padStart(2,'0');\nconst ts = now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate())+' '+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());\nconst esc = s => String(s||'').replace(/'/g,\"''\").substring(0,490);\nmsg.topic = \"INSERT INTO event_log (event_type,event_desc,user_id,occurred_at) VALUES ('\"+esc(msg.payload.event_type)+\"','\"+esc(msg.payload.event_desc)+\"','\"+esc(msg.payload.user_id||'System')+\"','\"+ts+\"')\";\nmsg.payload = {};\nreturn msg;",
         "outputs": 1,
@@ -1516,14 +1516,14 @@
         "y": 820,
         "wires": [
             [
-                "c1a217e82befcd3b"
+                "fd614f280fdbc599"
             ]
         ]
     },
     {
-        "id": "c1a217e82befcd3b",
+        "id": "fd614f280fdbc599",
         "type": "MSSQL",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "mssqlCN": "c7214cfdb99c6f92",
         "name": "Event Log Insert",
         "outField": "payload",
@@ -1547,9 +1547,9 @@
         ]
     },
     {
-        "id": "8cedbe5f9146afe6",
+        "id": "6ccff824035d0e68",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Build Event Query",
         "func": "if (!msg.payload || msg.payload.action !== 'event-log-query') return null;\nconst p = msg.payload;\nconst today = new Date().toISOString().split('T')[0];\nconst esc = s => String(s||'').replace(/'/g,\"''\");\nconst dateFrom = (p.dateFrom || today) + ' 00:00:00';\nconst dateTo   = (p.dateTo   || today) + ' 23:59:59';\nlet where = \"occurred_at BETWEEN '\"+dateFrom+\"' AND '\"+dateTo+\"'\";\nif (p.eventType && p.eventType !== 'all') where += \" AND event_type = '\"+esc(p.eventType)+\"'\";\nif (p.userId && p.userId.trim()) where += \" AND user_id LIKE '%\"+esc(p.userId.trim())+\"%'\";\nmsg.topic = \"SELECT TOP 500 id, event_type, event_desc, ISNULL(user_id,'System') AS user_id, CONVERT(varchar(19), occurred_at, 120) AS occurred_at FROM event_log WHERE \"+where+\" ORDER BY occurred_at DESC\";\nmsg.payload = {};\nreturn msg;",
         "outputs": 1,
@@ -1562,14 +1562,14 @@
         "y": 960,
         "wires": [
             [
-                "8c1efa8832e7a0c8"
+                "08d46b8cc7bd4f9e"
             ]
         ]
     },
     {
-        "id": "8c1efa8832e7a0c8",
+        "id": "08d46b8cc7bd4f9e",
         "type": "MSSQL",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "mssqlCN": "c7214cfdb99c6f92",
         "name": "Event Log Query",
         "outField": "payload",
@@ -1590,14 +1590,14 @@
         "y": 940,
         "wires": [
             [
-                "5837bc266789876e"
+                "5d1ff21baac868a0"
             ]
         ]
     },
     {
-        "id": "5837bc266789876e",
+        "id": "5d1ff21baac868a0",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Format Event Result",
         "func": "const rows = msg.payload || [];\nmsg.payload = {\n  action: 'event-log-result',\n  rows: rows.map(r => ({\n    id: r.id, event_type: r.event_type || '',\n    event_desc: r.event_desc || '',\n    user_id: r.user_id || 'System',\n    occurred_at: r.occurred_at || ''\n  })),\n  count: rows.length\n};\nreturn msg;",
         "outputs": 1,
@@ -1610,14 +1610,14 @@
         "y": 860,
         "wires": [
             [
-                "d965373a0f489eb4"
+                "d7e33157828a900b"
             ]
         ]
     },
     {
-        "id": "d965373a0f489eb4",
+        "id": "d7e33157828a900b",
         "type": "ui-template",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "group": "2588b5e57c413f3c",
         "page": "",
         "ui": "",
@@ -1635,14 +1635,14 @@
         "y": 860,
         "wires": [
             [
-                "f12cc8c4d8f57e6e"
+                "125616818bf19cea"
             ]
         ]
     },
     {
-        "id": "4a1173aa7dd20178",
+        "id": "b977fac3accfc757",
         "type": "http in",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Shutdown Event Endpoint",
         "url": "/api/system-shutdown",
         "method": "post",
@@ -1653,14 +1653,14 @@
         "y": 960,
         "wires": [
             [
-                "635ce8ee6716af37"
+                "60e12b25a9598d6e"
             ]
         ]
     },
     {
-        "id": "635ce8ee6716af37",
+        "id": "60e12b25a9598d6e",
         "type": "function",
-        "z": "aaa1905c11806a04",
+        "z": "bb9517b1331181ac",
         "name": "Build Shutdown Event",
         "func": "// Acknowledge HTTP request immediately\nres.writeHead(200, { 'Content-Type': 'application/json' });\nres.end(JSON.stringify({ ok: true }));\n\n// Build shutdown event\nmsg.payload = {\n    event_type: 'system-shutdown',\n    event_desc: 'Jetpace EMS shut down',\n    user_id: 'System'\n};\nreturn msg;",
         "outputs": 1,
@@ -1668,7 +1668,7 @@
         "y": 900,
         "wires": [
             [
-                "c5e822dd781b2741"
+                "c057d763d4988eb2"
             ]
         ]
     }

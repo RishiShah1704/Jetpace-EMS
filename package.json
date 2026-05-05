@@ -7,19 +7,19 @@
     "bin": "start.js",
     "scripts": {
         "start": "node-red -s settings.js flows.json",
-        "build": "pkg . --output dist/Jetpace.exe --icon icon/jetpace.ico"
+        "build": "pkg . --output Jetpace.exe --icon icon/jetpace.ico"
     },
     "pkg": {
         "assets": [
             "flows.json",
             "settings.js",
+            "icon/**/*",
             "node_modules/**/*",
             "public/**/*"
         ],
         "targets": [
             "node18-win-x64"
         ],
-        "outputPath": "dist",
         "icon": "icon/jetpace.ico"
     },
     "dependencies": {
@@ -28,6 +28,7 @@
         "@flowfuse/node-red-dashboard-2-user-addon": "~1.1.0",
         "@omrid01/node-red-dashboard-2-table-tabulator": "~0.8.2",
         "@s1seven/node-red-generate-pdf": "~0.0.9",
+        "node-hide-console-window": "^2.2.0",
         "node-red": "^4.0.9",
         "node-red-contrib-chartjs": "~0.5.2",
         "node-red-contrib-chartjs-line-alt": "~0.0.1",
@@ -41,6 +42,7 @@
         "node-red-node-mysql": "~3.0.0",
         "node-red-node-ui-table": "~0.4.5",
         "nodemailer": "^8.0.5",
-        "pdf-red": "~0.0.4"
+        "pdf-red": "~0.0.4",
+        "systray2": "^2.1.4"
     }
 }
