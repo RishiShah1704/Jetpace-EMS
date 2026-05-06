@@ -7,13 +7,15 @@
   ],
   "deviceSettings": {
     "slave_1": {
-      "Destination": "",
+      "Location": "Testing",
+      "RoomNo": "101",
       "LSP": 0,
       "HSP": 70,
       "notifyEmail": ""
     },
     "slave_2": {
-      "Destination": "",
+      "Location": "",
+      "RoomNo": "",
       "LSP": 0,
       "HSP": 70,
       "notifyEmail": ""
